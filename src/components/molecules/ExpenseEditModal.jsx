@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Modal from '@/components/atoms/Modal';
 import Button from '@/components/atoms/Button';
 import FormField from '@/components/molecules/FormField';
+import Select from '@/components/atoms/Select';
 import ApperIcon from '@/components/ApperIcon';
 import { toast } from 'react-toastify';
 import * as financeService from '@/services/api/financeService';
@@ -11,22 +12,24 @@ const ExpenseEditModal = ({ isOpen, onClose, onExpenseUpdated, expense }) => {
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
-  const [formData, setFormData] = useState({
+const [formData, setFormData] = useState({
+    date: '',
+    category: '',
     description: '',
     amount: '',
-    category: '',
-    date: '',
+    fieldId: '',
     fieldName: ''
   });
 
   // Pre-populate form when expense data changes
   useEffect(() => {
-    if (expense) {
+if (expense) {
       setFormData({
+        date: expense.date || '',
+        category: expense.category || '',
         description: expense.description || '',
         amount: expense.amount || '',
-        category: expense.category || '',
-        date: expense.date || '',
+        fieldId: expense.fieldId || '',
         fieldName: expense.fieldName || ''
       });
     }
@@ -47,26 +50,31 @@ const ExpenseEditModal = ({ isOpen, onClose, onExpenseUpdated, expense }) => {
     }
   };
 
-  const validateForm = () => {
+const validateForm = () => {
     const newErrors = {};
-
-    if (!formData.description.trim()) {
-      newErrors.description = t('descriptionRequired');
-    }
-
-    if (!formData.amount || formData.amount <= 0) {
-      newErrors.amount = t('validAmountRequired');
-    }
-
-    if (!formData.category.trim()) {
-      newErrors.category = t('categoryRequired');
-    }
-
+    
     if (!formData.date) {
-      newErrors.date = t('dateRequired');
+      newErrors.date = 'Date is required';
+    }
+    
+    if (!formData.category.trim()) {
+      newErrors.category = 'Category is required';
+    }
+    
+    if (!formData.description.trim()) {
+      newErrors.description = 'Description is required';
+    }
+    
+    if (!formData.amount || isNaN(formData.amount) || parseFloat(formData.amount) <= 0) {
+      newErrors.amount = 'Amount must be a positive number';
+    }
+    
+    if (formData.fieldId && (isNaN(formData.fieldId) || parseInt(formData.fieldId) <= 0)) {
+      newErrors.fieldId = 'Field ID must be a positive number';
     }
 
-    return newErrors;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
@@ -81,13 +89,14 @@ const ExpenseEditModal = ({ isOpen, onClose, onExpenseUpdated, expense }) => {
     setLoading(true);
     setErrors({});
 
-    try {
+try {
       const updatedExpense = await financeService.updateExpense(expense.Id, {
-        description: formData.description.trim(),
-        amount: parseFloat(formData.amount),
-        category: formData.category.trim(),
         date: formData.date,
-        fieldName: formData.fieldName.trim() || null
+        category: formData.category,
+        description: formData.description,
+        amount: parseFloat(formData.amount),
+        fieldId: formData.fieldId ? parseInt(formData.fieldId) : null,
+        fieldName: formData.fieldName || null
       });
 
       onExpenseUpdated(updatedExpense);
@@ -106,96 +115,112 @@ const ExpenseEditModal = ({ isOpen, onClose, onExpenseUpdated, expense }) => {
       setErrors({});
     }
   };
+const categories = ['Seeds', 'Fertilizers', 'Equipment', 'Labor', 'Pesticides', 'Utilities'];
 
   return (
-    <Modal 
-      isOpen={isOpen} 
+    <Modal
+      isOpen={isOpen}
       onClose={handleClose}
       title={t('editExpense')}
-      maxWidth="md"
+      size="lg"
     >
       <form onSubmit={handleSubmit} className="space-y-6">
-        <FormField
-          label={t('description')}
-          type="text"
-          value={formData.description}
-          onChange={(e) => handleInputChange('description', e.target.value)}
-          error={errors.description}
-          placeholder={t('expenseDescriptionPlaceholder')}
-          required
-        />
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            label={t('amount')}
-            type="number"
-            value={formData.amount}
-            onChange={(e) => handleInputChange('amount', e.target.value)}
-            error={errors.amount}
-            placeholder="0.00"
-            min="0"
-            step="0.01"
-            required
-          />
+          <div>
+            <FormField
+              label="Date"
+              type="date"
+              value={formData.date}
+              onChange={(e) => handleInputChange('date', e.target.value)}
+              error={errors.date}
+              required
+            />
+          </div>
 
-          <FormField
-            label={t('category')}
-            type="text"
-            value={formData.category}
-            onChange={(e) => handleInputChange('category', e.target.value)}
-            error={errors.category}
-            placeholder={t('expenseCategoryPlaceholder')}
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category *
+            </label>
+            <Select
+              value={formData.category}
+              onChange={(e) => handleInputChange('category', e.target.value)}
+              className="w-full"
+            >
+              {categories.map(category => (
+                <option key={category} value={category}>{category}</option>
+              ))}
+            </Select>
+            {errors.category && (
+              <p className="mt-1 text-sm text-error">{errors.category}</p>
+            )}
+          </div>
+
+          <div className="md:col-span-2">
+            <FormField
+              label="Description"
+              type="text"
+              value={formData.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              error={errors.description}
+              placeholder="Enter expense description"
+              required
+            />
+          </div>
+
+          <div>
+            <FormField
+              label="Amount ($)"
+              type="number"
+              value={formData.amount}
+              onChange={(e) => handleInputChange('amount', e.target.value)}
+              error={errors.amount}
+              placeholder="0.00"
+              min="0"
+              step="0.01"
+              required
+            />
+          </div>
+
+          <div>
+            <FormField
+              label="Field ID"
+              type="number"
+              value={formData.fieldId}
+              onChange={(e) => handleInputChange('fieldId', e.target.value)}
+              error={errors.fieldId}
+              placeholder="Field ID (optional)"
+              min="1"
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <FormField
+              label="Field Name"
+              type="text"
+              value={formData.fieldName}
+              onChange={(e) => handleInputChange('fieldName', e.target.value)}
+              placeholder="Field name (optional)"
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
-            label={t('date')}
-            type="date"
-            value={formData.date}
-            onChange={(e) => handleInputChange('date', e.target.value)}
-            error={errors.date}
-            required
-          />
-
-          <FormField
-            label={t('fieldName')}
-            type="text"
-            value={formData.fieldName}
-            onChange={(e) => handleInputChange('fieldName', e.target.value)}
-            error={errors.fieldName}
-            placeholder={t('fieldNamePlaceholder')}
-          />
-        </div>
-
-        <div className="flex justify-end space-x-3 pt-6 border-t">
+        <div className="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
           <Button
             type="button"
-            variant="secondary"
+            variant="outline"
             onClick={handleClose}
             disabled={loading}
+            className="flex-1 sm:flex-initial"
           >
-            {t('cancel')}
+            Cancel
           </Button>
-          
           <Button
             type="submit"
             variant="primary"
-            disabled={loading}
-            className="min-w-[120px]"
+            loading={loading}
+            className="flex-1 sm:flex-initial"
           >
-            {loading ? (
-              <div className="flex items-center">
-                <ApperIcon name="Loader2" className="h-4 w-4 mr-2 animate-spin" />
-                {t('updating')}
-              </div>
-            ) : (
-              <div className="flex items-center">
-                <ApperIcon name="Save" className="h-4 w-4 mr-2" />
-                {t('updateExpense')}
-              </div>
-            )}
+            {loading ? 'Updating...' : 'Update Expense'}
           </Button>
         </div>
       </form>
