@@ -11,6 +11,7 @@ import StatCard from "@/components/molecules/StatCard";
 import ExpenseEditModal from "@/components/molecules/ExpenseEditModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import HarvestCreateModal from "@/components/molecules/HarvestCreateModal";
+import HarvestEditModal from "@/components/molecules/HarvestEditModal";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
 import Badge from "@/components/atoms/Badge";
@@ -27,10 +28,12 @@ const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState("expenses");
 const [searchTerm, setSearchTerm] = useState("");
 const [categoryFilter, setCategoryFilter] = useState("all");
-  const [showCreateModal, setShowCreateModal] = useState(false);
+const [showCreateModal, setShowCreateModal] = useState(false);
   const [showHarvestModal, setShowHarvestModal] = useState(false);
+  const [showHarvestEditModal, setShowHarvestEditModal] = useState(false);
 const [showEditModal, setShowEditModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
+  const [selectedHarvest, setSelectedHarvest] = useState(null);
   const loadFinanceData = async () => {
     try {
       setError(null);
@@ -99,6 +102,20 @@ toast.success("Expense updated successfully");
         toast.error("Failed to delete harvest");
       }
     }
+};
+
+  const handleEditHarvest = (harvest) => {
+    setSelectedHarvest(harvest);
+    setShowHarvestEditModal(true);
+  };
+
+  const handleHarvestUpdated = (updatedHarvest) => {
+    setHarvests(prev => 
+      prev.map(harvest => 
+        harvest.Id === updatedHarvest.Id ? updatedHarvest : harvest
+      )
+    );
+    toast.success("Harvest updated successfully");
   };
 
   const calculateFinancialStats = () => {
@@ -396,11 +413,10 @@ const filteredExpenses = expenses.filter((expense) => {
                           </span>
                           
                           <div className="flex items-center space-x-2">
-                            <Button
+<Button
                               size="sm"
-variant="ghost"
-                              disabled
-                              title="Edit functionality temporarily unavailable"
+                              variant="ghost"
+                              onClick={() => handleEditHarvest(harvest)}
                             >
                               <ApperIcon name="Edit2" className="h-4 w-4" />
                             </Button>
@@ -441,6 +457,13 @@ variant="ghost"
         isOpen={showHarvestModal}
         onClose={() => setShowHarvestModal(false)}
         onHarvestCreated={handleHarvestCreated}
+      />
+
+      <HarvestEditModal
+        isOpen={showHarvestEditModal}
+        onClose={() => setShowHarvestEditModal(false)}
+        onHarvestUpdated={handleHarvestUpdated}
+        harvest={selectedHarvest}
       />
 
     </Layout>
