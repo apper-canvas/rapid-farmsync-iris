@@ -10,10 +10,10 @@ const MobileBottomNav = () => {
   const [showSettings, setShowSettings] = useState(false);
 const navItems = [
     { path: "/", icon: "Home", label: t('dashboard') },
+    { path: "/profile", icon: "User", label: t('profile') },
     { path: "/fields", icon: "MapPin", label: t('fields') },
     { path: "/tasks", icon: "CheckSquare", label: t('tasks') },
-    { path: "/inventory", icon: "Package", label: t('inventory') },
-    { path: "/crops", icon: "Wheat", label: t('crops') }
+    { path: "/inventory", icon: "Package", label: t('inventory') }
   ];
 
 return (

@@ -11,6 +11,7 @@ import Callback from "@/components/pages/Callback";
 import PromptPassword from "@/components/pages/PromptPassword";
 import Inventory from "@/components/pages/Inventory";
 import Dashboard from "@/components/pages/Dashboard";
+import Profile from "@/components/pages/Profile";
 import ErrorPage from "@/components/pages/ErrorPage";
 import ResetPassword from "@/components/pages/ResetPassword";
 import { TranslationProvider } from "@/i18n/TranslationContext";
@@ -132,6 +133,7 @@ function AppContent() {
           <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
 <Route path="/" element={<Dashboard />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/fields" element={<Fields />} />
           <Route path="/tasks" element={<Tasks />} />
 <Route path="/inventory" element={<Inventory />} />
