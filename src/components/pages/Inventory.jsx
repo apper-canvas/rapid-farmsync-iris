@@ -10,6 +10,7 @@ import Layout from "@/components/organisms/Layout";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
+import InventoryCreateModal from "@/components/molecules/InventoryCreateModal";
 import * as inventoryService from "@/services/api/inventoryService";
 
 const Inventory = () => {
@@ -19,7 +20,7 @@ const Inventory = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const loadInventory = async () => {
     try {
       setError(null);
@@ -48,6 +49,25 @@ const Inventory = () => {
         toast.error("Failed to delete item");
       }
     }
+};
+
+  const handleCreateItem = async (itemData) => {
+    try {
+      const newItem = await inventoryService.createItem(itemData);
+      setItems(prevItems => [...prevItems, newItem]);
+      toast.success("Item created successfully");
+    } catch (err) {
+      toast.error("Failed to create item");
+      throw err;
+    }
+  };
+
+  const handleOpenCreateModal = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const handleCloseCreateModal = () => {
+    setIsCreateModalOpen(false);
   };
 
   const filteredItems = items.filter((item) => {
@@ -55,7 +75,6 @@ const Inventory = () => {
     const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
-
   const categories = [...new Set(items.map(item => item.category))];
 
   if (loading) {
@@ -92,14 +111,14 @@ const Inventory = () => {
             </p>
           </div>
           
-          <Button 
+<Button 
             variant="primary" 
             className="mt-4 lg:mt-0"
-            onClick={() => toast.info("Add inventory form coming soon")}
+            onClick={handleOpenCreateModal}
           >
-<ApperIcon name="Plus" className="h-4 w-4 mr-2" />
-          {t('addItem')}
-        </Button>
+            <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
+            {t('addItem')}
+          </Button>
         </div>
 
         {/* Filters */}
@@ -133,7 +152,7 @@ const Inventory = () => {
               : t('noInventorySearchMessage')
             }
             actionText={t('addItem')}
-            onAction={() => toast.info("Add inventory form coming soon")}
+            onAction={handleOpenCreateModal}
             icon="Package"
           />
         ) : (
@@ -143,7 +162,13 @@ const Inventory = () => {
             onDeleteItem={handleDeleteItem}
           />
         )}
-      </div>
+</div>
+
+      <InventoryCreateModal
+        isOpen={isCreateModalOpen}
+        onClose={handleCloseCreateModal}
+        onSubmit={handleCreateItem}
+      />
     </Layout>
   );
 };
