@@ -23,47 +23,47 @@ const getStockStatus = (quantity, minStock) => {
     <div className="px-6 py-4 border-b border-gray-200">
         <h3 className="text-lg font-semibold text-gray-900 font-display">{t("inventoryItems")}</h3>
     </div>
-    <div className="overflow-x-auto">
+<div className="overflow-x-auto">
         <table className="w-full">
             <thead className="bg-gray-50">
                 <tr>
-                    <tr>
-                        <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {t("item")}
-                        </th>
-                        <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {t("category")}
-                        </th>
-                        <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {t("quantity")}
-                        </th>
-                        <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {t("status")}
-                        </th>
-                        <th
-                            className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {t("stockLevel")}
-                        </th>
-                        <th
-                            className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {t("actions")}
-                        </th></tr>
-                </tr></thead>
+                    <th
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t("item")}
+                    </th>
+                    <th
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t("category")}
+                    </th>
+                    <th
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t("quantity")}
+                    </th>
+                    <th
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t("status")}
+                    </th>
+                    <th
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t("stockLevel")}
+                    </th>
+                    <th
+                        className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        {t("actions")}
+                    </th>
+                </tr>
+            </thead>
             <tbody className="bg-white divide-y divide-gray-200">
                 {items.map(item => {
                     const stockStatus = getStockStatus(item.quantity, item.minStock);
                     const stockPercentage = getStockPercentage(item.quantity, item.minStock);
 
                     return (
-                        <tr key={item.Id} className="hover:bg-gray-50 transition-colors">
+<tr key={item.Id} className="hover:bg-gray-50 transition-colors">
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="font-medium text-gray-900">{item.name}</div>
+                                <div className="text-sm text-gray-500">{t("min")}: {item.minStock} {item.unit}</div>
                             </td>
-                            <div className="text-sm text-gray-500">{t("min")}: {item.minStock} {item.unit}</div>
                             <td className="px-6 py-4 whitespace-nowrap">
                                 <span className="text-sm text-gray-900">{item.category}</span>
                             </td>
