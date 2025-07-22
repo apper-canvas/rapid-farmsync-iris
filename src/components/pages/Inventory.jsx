@@ -70,8 +70,8 @@ const Inventory = () => {
     setIsCreateModalOpen(false);
   };
 
-  const filteredItems = items.filter((item) => {
-    const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+const filteredItems = items.filter((item) => {
+    const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });

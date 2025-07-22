@@ -69,8 +69,8 @@ const Tasks = () => {
     setTasks(prevTasks => [newTask, ...prevTasks]);
   };
 
-  const filteredTasks = tasks.filter((task) => {
-    const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+const filteredTasks = tasks.filter((task) => {
+    const matchesSearch = task.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          task.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === "all" || task.status === statusFilter;
     const matchesPriority = priorityFilter === "all" || task.priority === priorityFilter;

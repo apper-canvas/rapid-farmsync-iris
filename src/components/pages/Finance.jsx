@@ -102,8 +102,8 @@ const handleExpenseCreated = (newExpense) => {
     };
   };
 
-  const filteredExpenses = expenses.filter((expense) => {
-    const matchesSearch = expense.description.toLowerCase().includes(searchTerm.toLowerCase());
+const filteredExpenses = expenses.filter((expense) => {
+    const matchesSearch = expense.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === "all" || expense.category === categoryFilter;
     return matchesSearch && matchesCategory;
   });
