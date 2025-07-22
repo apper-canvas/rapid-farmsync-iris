@@ -163,23 +163,20 @@ const submitData = {
             onChange={(value) => handleInputChange('cropId', value)}
           />
 
-          <FormField
+<FormField
             label="Tags"
             type="text"
             value={formData.Tags}
             onChange={(value) => handleInputChange('Tags', value)}
-            placeholder="Comma-separated tags"
           />
         </div>
 
-        <FormField
+<FormField
           label="Coordinates"
           type="text"
           value={formData.coordinates}
           onChange={(value) => handleInputChange('coordinates', value)}
-          placeholder="Latitude, Longitude (comma-separated)"
         />
-
         <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
           <Button
             type="button"
