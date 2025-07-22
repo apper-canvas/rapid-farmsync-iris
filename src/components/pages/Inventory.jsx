@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useTranslation } from "@/i18n";
+import InventoryEditModal from "@/components/molecules/InventoryEditModal";
 import ApperIcon from "@/components/ApperIcon";
 import Empty from "@/components/ui/Empty";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import InventoryTable from "@/components/organisms/InventoryTable";
 import Layout from "@/components/organisms/Layout";
+import InventoryCreateModal from "@/components/molecules/InventoryCreateModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
-import InventoryCreateModal from "@/components/molecules/InventoryCreateModal";
 import * as inventoryService from "@/services/api/inventoryService";
+import { useTranslation } from "@/i18n/index";
 
 const Inventory = () => {
   const { t } = useTranslation();
@@ -20,7 +21,9 @@ const Inventory = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
   const loadInventory = async () => {
     try {
       setError(null);
@@ -66,10 +69,33 @@ const Inventory = () => {
     setIsCreateModalOpen(true);
   };
 
-  const handleCloseCreateModal = () => {
+const handleCloseCreateModal = () => {
     setIsCreateModalOpen(false);
   };
+  const handleEditItem = (item) => {
+    setEditingItem(item);
+    setIsEditModalOpen(true);
+  };
 
+  const handleUpdateItem = async (itemId, updates) => {
+    try {
+      const updatedItem = await inventoryService.updateItem(itemId, updates);
+      setItems(prevItems => 
+        prevItems.map(item => 
+          item.Id === itemId ? updatedItem : item
+        )
+      );
+      toast.success("Item updated successfully");
+    } catch (err) {
+      toast.error("Failed to update item");
+      throw err;
+    }
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setEditingItem(null);
+  };
 const filteredItems = items.filter((item) => {
     const matchesSearch = item.name?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === "all" || item.category === categoryFilter;
@@ -158,16 +184,23 @@ const filteredItems = items.filter((item) => {
 ) : (
           <InventoryTable
             items={filteredItems}
-            onEditItem={(item) => toast.info(`Edit mode for item: ${item.name} - Use this to open edit modal/page`)}
+onEditItem={handleEditItem}
             onDeleteItem={handleDeleteItem}
           />
         )}
 </div>
 
-      <InventoryCreateModal
+<InventoryCreateModal
         isOpen={isCreateModalOpen}
         onClose={handleCloseCreateModal}
         onSubmit={handleCreateItem}
+      />
+
+      <InventoryEditModal
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        onSubmit={handleUpdateItem}
+        item={editingItem}
       />
     </Layout>
   );
