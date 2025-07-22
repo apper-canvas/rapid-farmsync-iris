@@ -96,33 +96,37 @@ const submitData = {
     >
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <FormField
+<FormField
             label="Crop Name *"
             type="text"
             value={formData.name}
             onChange={(value) => handleInputChange('name', value)}
+            placeholder="e.g., Winter Wheat, Corn, Soybeans"
             required
           />
 
-          <FormField
+<FormField
             label="Crop Variety"
             type="text"
             value={formData.cropVariety}
             onChange={(value) => handleInputChange('cropVariety', value)}
+            placeholder="e.g., Red Winter, Sweet Corn"
           />
 
-          <FormField
+<FormField
             label="Plant Date"
             type="date"
             value={formData.plantDate}
             onChange={(value) => handleInputChange('plantDate', value)}
+            placeholder="YYYY-MM-DD"
           />
 
-          <FormField
+<FormField
             label="Expected Harvest Date"
             type="date"
             value={formData.expectedHarvest}
             onChange={(value) => handleInputChange('expectedHarvest', value)}
+            placeholder="YYYY-MM-DD"
           />
 
           <FormField
@@ -141,26 +145,29 @@ const submitData = {
             options={statusOptions}
           />
 
-          <FormField
+<FormField
             label="Area (acres)"
             type="number"
             value={formData.area}
             onChange={(value) => handleInputChange('area', value)}
+            placeholder="e.g., 5.5"
             step="0.1"
           />
 
-          <FormField
+<FormField
             label="Soil Type"
             type="text"
             value={formData.soilType}
             onChange={(value) => handleInputChange('soilType', value)}
+            placeholder="e.g., Loamy, Clay, Sandy"
           />
 
-          <FormField
+<FormField
             label="Crop ID"
             type="number"
             value={formData.cropId}
             onChange={(value) => handleInputChange('cropId', value)}
+            placeholder="e.g., 1001"
           />
 
 <FormField
@@ -168,6 +175,7 @@ const submitData = {
             type="text"
             value={formData.Tags}
             onChange={(value) => handleInputChange('Tags', value)}
+            placeholder="e.g., organic, high-yield, drought-resistant"
           />
         </div>
 
@@ -176,6 +184,7 @@ const submitData = {
           type="text"
           value={formData.coordinates}
           onChange={(value) => handleInputChange('coordinates', value)}
+          placeholder="e.g., 40.7128,-74.0060 or comma-separated values"
         />
         <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
           <Button
