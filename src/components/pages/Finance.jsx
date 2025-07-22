@@ -387,14 +387,12 @@ const filteredExpenses = expenses.filter((expense) => {
                       </div>
                     </div>
                   ))}
-                </div>
+</div>
               </Card>
             )}
-)}
           </div>
         )}
       </div>
-
       <ExpenseCreateModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
