@@ -7,6 +7,7 @@ import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import Layout from "@/components/organisms/Layout";
 import ExpenseCreateModal from "@/components/molecules/ExpenseCreateModal";
+import HarvestCreateModal from "@/components/molecules/HarvestCreateModal";
 import StatCard from "@/components/molecules/StatCard";
 import SearchBar from "@/components/molecules/SearchBar";
 import Card from "@/components/atoms/Card";
@@ -22,9 +23,10 @@ const { t } = useTranslation();
   const [harvests, setHarvests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
+const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showHarvestModal, setShowHarvestModal] = useState(false);
   const loadFinanceData = async () => {
     try {
       setError(null);
@@ -59,11 +61,15 @@ const { t } = useTranslation();
     }
 };
 
-  const handleExpenseCreated = (newExpense) => {
+const handleExpenseCreated = (newExpense) => {
     setExpenses(prev => [newExpense, ...prev]);
     toast.success("Expense created successfully");
   };
 
+  const handleHarvestCreated = (newHarvest) => {
+    setHarvests(prev => [newHarvest, ...prev]);
+    toast.success("Harvest record created successfully");
+  };
   const calculateFinancialStats = () => {
     const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
     const totalRevenue = harvests.reduce((sum, harvest) => sum + harvest.revenue, 0);
@@ -140,9 +146,9 @@ const { t } = useTranslation();
           </div>
           
 <div className="flex gap-2 mt-4 lg:mt-0">
-            <Button 
+<Button 
               variant="secondary"
-              onClick={() => toast.info("Add harvest form coming soon")}
+              onClick={() => setShowHarvestModal(true)}
             >
               <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
               {t('recordHarvest')}
@@ -279,10 +285,16 @@ const { t } = useTranslation();
 )}
       </div>
 
-      <ExpenseCreateModal
+<ExpenseCreateModal
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         onExpenseCreated={handleExpenseCreated}
+      />
+
+      <HarvestCreateModal
+        isOpen={showHarvestModal}
+        onClose={() => setShowHarvestModal(false)}
+        onHarvestCreated={handleHarvestCreated}
       />
     </Layout>
   );
