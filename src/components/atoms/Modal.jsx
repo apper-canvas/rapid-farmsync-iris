@@ -9,8 +9,36 @@ const Modal = ({
   children, 
   size = 'md',
   className,
-  ...otherProps // Capture any additional props to prevent them from being passed to DOM
+  loading,
+  disabled,
+  variant,
+  ...domProps // Only spread props that are safe for DOM elements
 }) => {
+  // Filter out any remaining non-DOM props that might cause warnings
+  const {
+    // Remove any other potential non-DOM props
+    onClick,
+    onSubmit,
+    onKeyDown,
+    id,
+    role,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    'aria-describedby': ariaDescribedBy,
+    ...safeDomProps
+  } = domProps;
+  
+  // Reconstruct only the props that are safe for DOM elements
+  const safeProps = {
+    ...(id && { id }),
+    ...(role && { role }),
+    ...(ariaLabel && { 'aria-label': ariaLabel }),
+    ...(ariaLabelledBy && { 'aria-labelledby': ariaLabelledBy }),
+    ...(ariaDescribedBy && { 'aria-describedby': ariaDescribedBy }),
+    ...(onClick && { onClick }),
+    ...(onSubmit && { onSubmit }),
+    ...(onKeyDown && { onKeyDown })
+  };
   // Ensure size is always a string to prevent boolean attribute issues
   const validSize = typeof size === 'string' ? size : 'md';
   useEffect(() => {
