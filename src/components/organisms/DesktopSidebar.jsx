@@ -88,6 +88,8 @@ const navItems = [
 
       {/* User Profile */}
       <LogoutButton />
-    </aside>
+</aside>
   );
 };
+
+export default DesktopSidebar;
