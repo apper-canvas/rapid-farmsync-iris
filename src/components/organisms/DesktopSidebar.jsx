@@ -16,6 +16,7 @@ const navItems = [
     { path: "/tasks", icon: "CheckSquare", label: t('tasks') },
     { path: "/inventory", icon: "Package", label: t('inventory') },
     { path: "/finance", icon: "DollarSign", label: t('finance') },
+    { path: "/crops", icon: "Wheat", label: t('crops') },
   ];
 
   return (

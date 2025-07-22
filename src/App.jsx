@@ -12,6 +12,7 @@ import Fields from "@/components/pages/Fields";
 import Tasks from "@/components/pages/Tasks";
 import Inventory from "@/components/pages/Inventory";
 import Finance from "@/components/pages/Finance";
+import Crops from "@/components/pages/Crops";
 import Login from '@/components/pages/Login';
 import Signup from '@/components/pages/Signup';
 import Callback from '@/components/pages/Callback';
@@ -132,11 +133,12 @@ function AppContent() {
           <Route path="/error" element={<ErrorPage />} />
           <Route path="/prompt-password/:appId/:emailAddress/:provider" element={<PromptPassword />} />
           <Route path="/reset-password/:appId/:fields" element={<ResetPassword />} />
-          <Route path="/" element={<Dashboard />} />
+<Route path="/" element={<Dashboard />} />
           <Route path="/fields" element={<Fields />} />
           <Route path="/tasks" element={<Tasks />} />
           <Route path="/inventory" element={<Inventory />} />
           <Route path="/finance" element={<Finance />} />
+          <Route path="/crops" element={<Crops />} />
         </Routes>
         
         <ToastContainer

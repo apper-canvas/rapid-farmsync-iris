@@ -1,11 +1,12 @@
 const translations = {
   en: {
     // Navigation
-    dashboard: "Dashboard",
+dashboard: "Dashboard",
     fields: "Fields",
     tasks: "Tasks", 
     inventory: "Inventory",
     finance: "Finance",
+    crops: "Crops",
     settings: "Settings",
 
     // App Title
@@ -125,11 +126,12 @@ const translations = {
 
   es: {
     // Navigation  
-    dashboard: "Panel de Control",
+dashboard: "Panel de Control",
     fields: "Campos",
     tasks: "Tareas",
     inventory: "Inventario", 
     finance: "Finanzas",
+    crops: "Cultivos",
     settings: "Configuración",
 
     // App Title
@@ -249,11 +251,12 @@ const translations = {
 
   hi: {
     // Navigation
-    dashboard: "डैशबोर्ड",
+dashboard: "डैशबोर्ड",
     fields: "खेत",
     tasks: "कार्य",
     inventory: "इन्वेंटरी",
     finance: "वित्त",
+    crops: "फसल",
     settings: "सेटिंग्स",
 
     // App Title
@@ -373,11 +376,12 @@ const translations = {
 
   mr: {
     // Navigation
-    dashboard: "डॅशबोर्ड",
+dashboard: "डॅशबोर्ड",
     fields: "शेत",
     tasks: "कार्ये",
     inventory: "यादी",
     finance: "वित्त",
+    crops: "पिके",
     settings: "सेटिंग्ज",
 
     // App Title
