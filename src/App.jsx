@@ -1,24 +1,22 @@
-import { createContext, useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { createContext, useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes, useNavigate } from "react-router-dom";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { TranslationProvider } from "@/i18n";
-import { setUser, clearUser } from './store/userSlice';
-import { store } from './store/store';
-
-import Dashboard from "@/components/pages/Dashboard";
 import Fields from "@/components/pages/Fields";
 import Tasks from "@/components/pages/Tasks";
-import Inventory from "@/components/pages/Inventory";
 import Finance from "@/components/pages/Finance";
-import Crops from "@/components/pages/Crops";
-import Login from '@/components/pages/Login';
-import Signup from '@/components/pages/Signup';
-import Callback from '@/components/pages/Callback';
-import ErrorPage from '@/components/pages/ErrorPage';
-import ResetPassword from '@/components/pages/ResetPassword';
-import PromptPassword from '@/components/pages/PromptPassword';
+import Login from "@/components/pages/Login";
+import Signup from "@/components/pages/Signup";
+import Callback from "@/components/pages/Callback";
+import PromptPassword from "@/components/pages/PromptPassword";
+import Inventory from "@/components/pages/Inventory";
+import Dashboard from "@/components/pages/Dashboard";
+import ErrorPage from "@/components/pages/ErrorPage";
+import ResetPassword from "@/components/pages/ResetPassword";
+import { TranslationProvider } from "@/i18n/TranslationContext";
+import { store } from "@/store/store";
+import { clearUser, setUser } from "@/store/userSlice";
+
 
 // Create auth context
 export const AuthContext = createContext(null);
@@ -136,11 +134,9 @@ function AppContent() {
 <Route path="/" element={<Dashboard />} />
           <Route path="/fields" element={<Fields />} />
           <Route path="/tasks" element={<Tasks />} />
-          <Route path="/inventory" element={<Inventory />} />
+<Route path="/inventory" element={<Inventory />} />
           <Route path="/finance" element={<Finance />} />
-          <Route path="/crops" element={<Crops />} />
         </Routes>
-        
         <ToastContainer
           position="top-right"
           autoClose={3000}
