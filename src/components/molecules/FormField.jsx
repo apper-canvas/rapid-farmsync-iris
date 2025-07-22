@@ -25,11 +25,16 @@ const FormField = ({
           {required && <span className="text-error ml-1">*</span>}
         </label>
       )}
-      
 {children ? (
         React.cloneElement(children, inputProps)
       ) : type === "select" ? (
-        <Select {...inputProps} />
+        <Select {...inputProps}>
+          {props.options?.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </Select>
       ) : (
         <Input type={type} {...inputProps} />
       )}
