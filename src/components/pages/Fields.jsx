@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Layout from "@/components/organisms/Layout";
+import { useTranslation } from "@/i18n";
+import ApperIcon from "@/components/ApperIcon";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 import FieldGrid from "@/components/organisms/FieldGrid";
-import Button from "@/components/atoms/Button";
+import Layout from "@/components/organisms/Layout";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 import * as fieldService from "@/services/api/fieldService";
 
 const Fields = () => {
+  const { t } = useTranslation();
   const [fields, setFields] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -48,10 +50,10 @@ const Fields = () => {
     }
   };
 
-  const filteredFields = fields.filter((field) => {
-    const matchesSearch = field.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         field.cropVariety?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesStatus = statusFilter === "all" || field.currentStage === statusFilter;
+const filteredFields = fields.filter((field) => {
+    const matchesSearch = field?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                         field?.cropVariety?.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesStatus = statusFilter === "all" || field?.currentStage === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -80,12 +82,12 @@ const Fields = () => {
       <div className="p-6">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
-          <div>
+<div>
             <h1 className="text-3xl font-bold text-gray-900 font-display mb-2">
-              Fields Management
+              {t('fieldsManagement')}
             </h1>
             <p className="text-gray-600">
-              Monitor and manage all your farm fields in one place.
+              {t('fieldsDescription')}
             </p>
           </div>
           
@@ -93,19 +95,19 @@ const Fields = () => {
             variant="primary" 
             className="mt-4 lg:mt-0"
             onClick={() => toast.info("Add field form coming soon")}
-          >
+>
             <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
-            Add New Field
+            {t('addNewField')}
           </Button>
         </div>
 
         {/* Filters */}
         <div className="flex flex-col lg:flex-row gap-4 mb-6">
-          <div className="flex-1">
+<div className="flex-1">
             <SearchBar
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search fields by name or crop..."
+              placeholder={t('searchFields')}
             />
           </div>
           
@@ -113,24 +115,24 @@ const Fields = () => {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
             className="lg:w-48"
-          >
-            <option value="all">All Status</option>
-            <option value="seeding">Seeding</option>
-            <option value="growing">Growing</option>
-            <option value="ready">Ready</option>
-            <option value="harvested">Harvested</option>
+>
+            <option value="all">{t('allStatus')}</option>
+            <option value="seeding">{t('seeding')}</option>
+            <option value="growing">{t('growing')}</option>
+            <option value="ready">{t('ready')}</option>
+            <option value="harvested">{t('harvested')}</option>
           </Select>
         </div>
 
         {/* Fields Grid */}
-        {filteredFields.length === 0 ? (
+{filteredFields.length === 0 ? (
           <Empty
-            title="No Fields Found"
+            title={t('noFieldsFound')}
             message={fields.length === 0 
-              ? "Start managing your farm by adding your first field."
-              : "No fields match your current search criteria."
+              ? t('noFieldsMessage')
+              : t('noFieldsSearchMessage')
             }
-            actionText="Add Field"
+            actionText={t('addField')}
             onAction={() => toast.info("Add field form coming soon")}
             icon="MapPin"
           />

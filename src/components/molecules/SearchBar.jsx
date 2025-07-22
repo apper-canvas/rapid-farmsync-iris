@@ -2,7 +2,7 @@ import React from "react";
 import Input from "@/components/atoms/Input";
 import ApperIcon from "@/components/ApperIcon";
 
-const SearchBar = ({ value, onChange, placeholder = "Search...", className }) => {
+const SearchBar = ({ value, onChange, placeholder, className }) => {
   return (
     <div className="relative">
       <ApperIcon 

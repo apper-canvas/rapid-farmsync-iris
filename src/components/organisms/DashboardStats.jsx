@@ -1,28 +1,30 @@
 import React from "react";
 import StatCard from "@/components/molecules/StatCard";
+import { useTranslation } from "@/i18n";
 
 const DashboardStats = ({ stats }) => {
-  const statCards = [
+  const { t } = useTranslation();
+const statCards = [
     {
-      title: "Total Fields",
+      title: t('totalFields'),
       value: stats.totalFields,
       icon: "MapPin",
       color: "primary"
     },
     {
-      title: "Active Crops",
+      title: t('activeCrops'),
       value: stats.activeCrops,
       icon: "Sprout",
       color: "success"
     },
     {
-      title: "Pending Tasks",
+      title: t('pendingTasks'),
       value: stats.pendingTasks,
       icon: "Clock",
       color: "warning"
     },
     {
-      title: "This Month Revenue",
+      title: t('monthlyRevenue'),
       value: `$${stats.monthlyRevenue?.toLocaleString() || 0}`,
       icon: "DollarSign",
       color: "accent",

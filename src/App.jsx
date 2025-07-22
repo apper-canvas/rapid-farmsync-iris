@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { TranslationProvider } from "@/i18n";
 
 import Dashboard from "@/components/pages/Dashboard";
 import Fields from "@/components/pages/Fields";
@@ -10,8 +11,9 @@ import Finance from "@/components/pages/Finance";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <TranslationProvider>
+      <Router>
+        <div className="App">
         <Routes>
           <Route path="/" element={<Dashboard />} />
           <Route path="/fields" element={<Fields />} />
@@ -32,9 +34,10 @@ function App() {
           pauseOnHover
           theme="light"
           className="z-[9999]"
-        />
-      </div>
-    </Router>
+/>
+        </div>
+      </Router>
+    </TranslationProvider>
   );
 }
 

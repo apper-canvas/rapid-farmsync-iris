@@ -9,8 +9,10 @@ import RecentTasks from "@/components/organisms/RecentTasks";
 import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import { getDashboardData } from "@/services/api/dashboardService";
+import { useTranslation } from "@/i18n";
 
 const Dashboard = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -59,11 +61,11 @@ const Dashboard = () => {
       <div className="p-6 space-y-6">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 font-display mb-2">
-            Farm Dashboard
+<h1 className="text-3xl font-bold text-gray-900 font-display mb-2">
+            {t('farmDashboard')}
           </h1>
           <p className="text-gray-600">
-            Welcome back! Here's what's happening on your farm today.
+            {t('welcomeMessage')}
           </p>
         </div>
 

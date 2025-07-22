@@ -4,15 +4,17 @@ import Badge from "@/components/atoms/Badge";
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
 import { format } from "date-fns";
+import { useTranslation } from "@/i18n";
 
 const RecentTasks = ({ tasks, onViewAll }) => {
+  const { t } = useTranslation();
   if (!tasks || tasks.length === 0) {
     return (
-      <Card className="p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4 font-display">Recent Tasks</h3>
+<Card className="p-6">
+        <h3 className="text-lg font-semibold text-gray-900 mb-4 font-display">{t('recentTasks')}</h3>
         <div className="text-center py-8">
           <ApperIcon name="CheckSquare" className="h-12 w-12 text-gray-400 mx-auto mb-3" />
-          <p className="text-gray-500">No recent tasks</p>
+          <p className="text-gray-500">{t('noRecentTasks')}</p>
         </div>
       </Card>
     );
@@ -27,10 +29,10 @@ const RecentTasks = ({ tasks, onViewAll }) => {
 
   return (
     <Card className="p-6">
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-lg font-semibold text-gray-900 font-display">Recent Tasks</h3>
+<div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-900 font-display">{t('recentTasks')}</h3>
         <Button variant="ghost" size="sm" onClick={onViewAll}>
-          <span className="text-sm text-primary">View All</span>
+          <span className="text-sm text-primary">{t('viewAll')}</span>
           <ApperIcon name="ArrowRight" className="h-4 w-4 ml-1" />
         </Button>
       </div>

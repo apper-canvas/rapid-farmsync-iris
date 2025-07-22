@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import Layout from "@/components/organisms/Layout";
+import { useTranslation } from "@/i18n";
+import ApperIcon from "@/components/ApperIcon";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 import InventoryTable from "@/components/organisms/InventoryTable";
-import Button from "@/components/atoms/Button";
+import Layout from "@/components/organisms/Layout";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 import * as inventoryService from "@/services/api/inventoryService";
 
 const Inventory = () => {
+  const { t } = useTranslation();
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -81,12 +83,12 @@ const Inventory = () => {
       <div className="p-6">
         {/* Header */}
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
-          <div>
+<div>
             <h1 className="text-3xl font-bold text-gray-900 font-display mb-2">
-              Inventory Management
+              {t('inventoryManagement')}
             </h1>
             <p className="text-gray-600">
-              Track stock levels and manage farm supplies efficiently.
+              {t('inventoryDescription')}
             </p>
           </div>
           
@@ -95,18 +97,18 @@ const Inventory = () => {
             className="mt-4 lg:mt-0"
             onClick={() => toast.info("Add inventory form coming soon")}
           >
-            <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
-            Add Item
-          </Button>
+<ApperIcon name="Plus" className="h-4 w-4 mr-2" />
+          {t('addItem')}
+        </Button>
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col lg:flex-row gap-4 mb-6">
+<div className="flex flex-col lg:flex-row gap-4 mb-6">
           <div className="flex-1">
             <SearchBar
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search inventory items..."
+              placeholder={t('searchInventory')}
             />
           </div>
           
@@ -115,7 +117,7 @@ const Inventory = () => {
             onChange={(e) => setCategoryFilter(e.target.value)}
             className="lg:w-48"
           >
-            <option value="all">All Categories</option>
+            <option value="all">{t('allCategories')}</option>
             {categories.map(category => (
               <option key={category} value={category}>{category}</option>
             ))}
@@ -124,13 +126,13 @@ const Inventory = () => {
 
         {/* Inventory Table */}
         {filteredItems.length === 0 ? (
-          <Empty
-            title="No Inventory Items"
+<Empty
+            title={t('noInventoryItems')}
             message={items.length === 0 
-              ? "Start tracking your farm supplies by adding inventory items."
-              : "No items match your current search criteria."
+              ? t('noInventoryMessage')
+              : t('noInventorySearchMessage')
             }
-            actionText="Add Item"
+            actionText={t('addItem')}
             onAction={() => toast.info("Add inventory form coming soon")}
             icon="Package"
           />

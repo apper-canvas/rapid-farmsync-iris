@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
+import LanguageSelector from "@/components/molecules/LanguageSelector";
+import { useTranslation } from "@/i18n";
 
 const DesktopSidebar = () => {
   const location = useLocation();
+  const { t } = useTranslation();
+  const [showLanguageSelector, setShowLanguageSelector] = useState(false);
 
-  const navItems = [
-    { path: "/", icon: "Home", label: "Dashboard" },
-    { path: "/fields", icon: "MapPin", label: "Fields" },
-    { path: "/tasks", icon: "CheckSquare", label: "Tasks" },
-    { path: "/inventory", icon: "Package", label: "Inventory" },
-    { path: "/finance", icon: "DollarSign", label: "Finance" },
+const navItems = [
+    { path: "/", icon: "Home", label: t('dashboard') },
+    { path: "/fields", icon: "MapPin", label: t('fields') },
+    { path: "/tasks", icon: "CheckSquare", label: t('tasks') },
+    { path: "/inventory", icon: "Package", label: t('inventory') },
+    { path: "/finance", icon: "DollarSign", label: t('finance') },
   ];
 
   return (
@@ -22,9 +26,9 @@ const DesktopSidebar = () => {
           <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-lg">
             <ApperIcon name="Sprout" className="h-6 w-6 text-white" />
           </div>
-          <div>
-            <h1 className="text-xl font-bold text-gray-900 font-display">FarmSync Pro</h1>
-            <p className="text-xs text-gray-500">Smart Agriculture</p>
+<div>
+            <h1 className="text-xl font-bold text-gray-900 font-display">{t('appTitle')}</h1>
+            <p className="text-xs text-gray-500">{t('appSubtitle')}</p>
           </div>
         </div>
       </div>
@@ -59,7 +63,28 @@ const DesktopSidebar = () => {
               </li>
             );
           })}
-        </ul>
+</ul>
+        
+        {/* Settings and Language Selector */}
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <button
+            onClick={() => setShowLanguageSelector(!showLanguageSelector)}
+            className="group relative flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 text-gray-700 hover:bg-gray-50 hover:text-primary"
+          >
+            <ApperIcon name="Settings" className="h-5 w-5 mr-3" />
+            {t('settings')}
+            <ApperIcon 
+              name={showLanguageSelector ? "ChevronUp" : "ChevronDown"} 
+              className="h-4 w-4 ml-auto" 
+            />
+          </button>
+          
+          {showLanguageSelector && (
+            <div className="mt-2 ml-8">
+              <LanguageSelector />
+            </div>
+          )}
+        </div>
       </nav>
 
       {/* User Profile */}
@@ -68,12 +93,12 @@ const DesktopSidebar = () => {
           <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-full">
             <ApperIcon name="User" className="h-4 w-4 text-white" />
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">Farm Manager</p>
-            <p className="text-xs text-gray-500">Green Valley Farm</p>
-          </div>
         </div>
       </div>
+<div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-gray-900 truncate">{t('farmManager')}</p>
+            <p className="text-xs text-gray-500">{t('farmName')}</p>
+          </div>
     </aside>
   );
 };

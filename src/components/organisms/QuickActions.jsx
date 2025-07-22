@@ -3,32 +3,34 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import Button from "@/components/atoms/Button";
 import ApperIcon from "@/components/ApperIcon";
+import { useTranslation } from "@/i18n";
 
 const QuickActions = () => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
-  const actions = [
+const actions = [
     {
       icon: "Plus",
-      label: "Add Field",
+      label: t('addField'),
       onClick: () => navigate("/fields"),
       color: "from-primary to-secondary"
     },
     {
       icon: "CheckSquare",
-      label: "New Task",
+      label: t('newTask'),
       onClick: () => navigate("/tasks"),
       color: "from-accent to-orange-600"
     },
     {
       icon: "Package",
-      label: "Update Inventory",
+      label: t('updateInventory'),
       onClick: () => navigate("/inventory"),
       color: "from-purple-500 to-purple-600"
     },
     {
       icon: "Receipt",
-      label: "Add Expense",
+      label: t('addExpense'),
       onClick: () => navigate("/finance"),
       color: "from-blue-500 to-blue-600"
     }

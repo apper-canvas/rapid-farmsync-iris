@@ -1,17 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "@/i18n";
+import ApperIcon from "@/components/ApperIcon";
+import Empty from "@/components/ui/Empty";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 import Layout from "@/components/organisms/Layout";
 import TaskItem from "@/components/molecules/TaskItem";
-import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
+import Button from "@/components/atoms/Button";
 import * as taskService from "@/services/api/taskService";
 
 const Tasks = () => {
+  const { t } = useTranslation();
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -93,13 +95,13 @@ const Tasks = () => {
     <Layout>
       <div className="p-6">
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
+<div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold text-gray-900 font-display mb-2">
-              Task Management
+              {t('taskManagement')}
             </h1>
             <p className="text-gray-600">
-              Organize and track all your farm activities and assignments.
+              {t('tasksDescription')}
             </p>
           </div>
           
@@ -109,49 +111,49 @@ const Tasks = () => {
             onClick={() => toast.info("Add task form coming soon")}
           >
             <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
-            Create Task
+            {t('createTask')}
           </Button>
         </div>
 
-        {/* Filters */}
+{/* Filters */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
           <SearchBar
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search tasks..."
+            placeholder={t('searchTasks')}
           />
           
           <Select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
-            <option value="all">All Status</option>
-            <option value="pending">Pending</option>
-            <option value="in-progress">In Progress</option>
-            <option value="completed">Completed</option>
-            <option value="overdue">Overdue</option>
+            <option value="all">{t('allStatus')}</option>
+            <option value="pending">{t('pending')}</option>
+            <option value="in-progress">{t('inProgress')}</option>
+            <option value="completed">{t('completed')}</option>
+            <option value="overdue">{t('overdue')}</option>
           </Select>
 
           <Select
             value={priorityFilter}
             onChange={(e) => setPriorityFilter(e.target.value)}
           >
-            <option value="all">All Priority</option>
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
+            <option value="all">{t('allPriority')}</option>
+            <option value="high">{t('high')}</option>
+            <option value="medium">{t('medium')}</option>
+            <option value="low">{t('low')}</option>
           </Select>
         </div>
 
-        {/* Tasks List */}
+{/* Tasks List */}
         {filteredTasks.length === 0 ? (
           <Empty
-            title="No Tasks Found"
+            title={t('noTasksFound')}
             message={tasks.length === 0 
-              ? "Create your first task to start organizing farm activities."
-              : "No tasks match your current search criteria."
+              ? t('noTasksMessage')
+              : t('noTasksSearchMessage')
             }
-            actionText="Create Task"
+            actionText={t('createTask')}
             onAction={() => toast.info("Add task form coming soon")}
             icon="CheckSquare"
           />
