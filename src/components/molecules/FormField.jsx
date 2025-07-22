@@ -12,9 +12,24 @@ const FormField = ({
   children,
   ...props 
 }) => {
+// Convert value to display-friendly format
+  const getDisplayValue = (value) => {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'object' && !Array.isArray(value)) {
+      // Handle lookup objects - display the Name property if available
+      return value.Name || value.name || '';
+    }
+    if (Array.isArray(value)) {
+      // Handle array values like coordinates
+      return value.join(', ');
+    }
+    return String(value);
+  };
+
   const inputProps = {
     className: cn(error && "border-error focus:border-error focus:ring-error/20"),
-    ...props
+    ...props,
+    value: getDisplayValue(props.value)
   };
 
   return (

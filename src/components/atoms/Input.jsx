@@ -1,7 +1,20 @@
 import React from "react";
 import { cn } from "@/utils/cn";
 
-const Input = React.forwardRef(({ className, type = "text", ...props }, ref) => {
+const Input = React.forwardRef(({ className, type = "text", value, ...props }, ref) => {
+  // Ensure value is always a string or number for proper display
+  const safeValue = React.useMemo(() => {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'object') {
+      // Handle objects by converting to empty string to prevent [object Object]
+      if (Array.isArray(value)) {
+        return value.join(', ');
+      }
+      return '';
+    }
+    return String(value);
+  }, [value]);
+
   return (
     <input
       type={type}
@@ -10,6 +23,7 @@ const Input = React.forwardRef(({ className, type = "text", ...props }, ref) => 
         className
       )}
       ref={ref}
+      value={safeValue}
       {...props}
     />
   );
