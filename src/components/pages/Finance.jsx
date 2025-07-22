@@ -7,6 +7,7 @@ import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import Layout from "@/components/organisms/Layout";
 import ExpenseCreateModal from "@/components/molecules/ExpenseCreateModal";
+import ExpenseEditModal from "@/components/molecules/ExpenseEditModal";
 import HarvestCreateModal from "@/components/molecules/HarvestCreateModal";
 import StatCard from "@/components/molecules/StatCard";
 import SearchBar from "@/components/molecules/SearchBar";
@@ -24,9 +25,12 @@ const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 const [searchTerm, setSearchTerm] = useState("");
-  const [categoryFilter, setCategoryFilter] = useState("all");
+const [categoryFilter, setCategoryFilter] = useState("all");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showHarvestModal, setShowHarvestModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedExpense, setSelectedExpense] = useState(null);
+  
   const loadFinanceData = async () => {
     try {
       setError(null);
@@ -69,6 +73,20 @@ const handleExpenseCreated = (newExpense) => {
   const handleHarvestCreated = (newHarvest) => {
     setHarvests(prev => [newHarvest, ...prev]);
     toast.success("Harvest record created successfully");
+  };
+
+  const handleEditExpense = (expense) => {
+    setSelectedExpense(expense);
+    setShowEditModal(true);
+  };
+
+  const handleExpenseUpdated = (updatedExpense) => {
+    setExpenses(prev => 
+      prev.map(expense => 
+        expense.Id === updatedExpense.Id ? updatedExpense : expense
+      )
+    );
+    toast.success("Expense updated successfully");
   };
   const calculateFinancialStats = () => {
     const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
@@ -262,7 +280,7 @@ const filteredExpenses = expenses.filter((expense) => {
 <Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => toast.info(`Edit mode for expense: ${expense.description} - Use this to open edit modal/page`)}
+                          onClick={() => handleEditExpense(expense)}
                         >
                           <ApperIcon name="Edit2" className="h-4 w-4" />
                         </Button>
@@ -289,6 +307,13 @@ const filteredExpenses = expenses.filter((expense) => {
         isOpen={showCreateModal}
         onClose={() => setShowCreateModal(false)}
         onExpenseCreated={handleExpenseCreated}
+      />
+
+      <ExpenseEditModal
+        isOpen={showEditModal}
+        onClose={() => setShowEditModal(false)}
+        onExpenseUpdated={handleExpenseUpdated}
+        expense={selectedExpense}
       />
 
       <HarvestCreateModal
