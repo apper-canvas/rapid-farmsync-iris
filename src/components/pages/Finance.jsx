@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { format } from "date-fns";
-import { useTranslation } from "@/i18n";
 import ApperIcon from "@/components/ApperIcon";
 import Empty from "@/components/ui/Empty";
 import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import Layout from "@/components/organisms/Layout";
+import ExpenseCreateModal from "@/components/molecules/ExpenseCreateModal";
 import StatCard from "@/components/molecules/StatCard";
 import SearchBar from "@/components/molecules/SearchBar";
 import Card from "@/components/atoms/Card";
@@ -14,16 +14,17 @@ import Select from "@/components/atoms/Select";
 import Badge from "@/components/atoms/Badge";
 import Button from "@/components/atoms/Button";
 import * as financeService from "@/services/api/financeService";
+import { useTranslation } from "@/i18n/index";
 
 const Finance = () => {
-  const { t } = useTranslation();
+const { t } = useTranslation();
   const [expenses, setExpenses] = useState([]);
   const [harvests, setHarvests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-
+  const [showCreateModal, setShowCreateModal] = useState(false);
   const loadFinanceData = async () => {
     try {
       setError(null);
@@ -56,13 +57,17 @@ const Finance = () => {
         toast.error("Failed to delete expense");
       }
     }
+};
+
+  const handleExpenseCreated = (newExpense) => {
+    setExpenses(prev => [newExpense, ...prev]);
+    toast.success("Expense created successfully");
   };
 
   const calculateFinancialStats = () => {
     const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
     const totalRevenue = harvests.reduce((sum, harvest) => sum + harvest.revenue, 0);
     const profit = totalRevenue - totalExpenses;
-    
     // This month calculations
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
@@ -134,7 +139,7 @@ const Finance = () => {
             </p>
           </div>
           
-          <div className="flex gap-2 mt-4 lg:mt-0">
+<div className="flex gap-2 mt-4 lg:mt-0">
             <Button 
               variant="secondary"
               onClick={() => toast.info("Add harvest form coming soon")}
@@ -142,9 +147,10 @@ const Finance = () => {
               <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
               {t('recordHarvest')}
             </Button>
+            
             <Button 
               variant="primary"
-              onClick={() => toast.info("Add expense form coming soon")}
+              onClick={() => setShowCreateModal(true)}
             >
               <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
               {t('addExpense')}
@@ -270,8 +276,14 @@ const Finance = () => {
               ))}
             </div>
           </Card>
-        )}
+)}
       </div>
+
+      <ExpenseCreateModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onExpenseCreated={handleExpenseCreated}
+      />
     </Layout>
   );
 };
