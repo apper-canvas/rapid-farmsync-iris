@@ -8,6 +8,7 @@ import Loading from "@/components/ui/Loading";
 import Layout from "@/components/organisms/Layout";
 import TaskItem from "@/components/molecules/TaskItem";
 import TaskCreateModal from "@/components/molecules/TaskCreateModal";
+import TaskEditModal from "@/components/molecules/TaskEditModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
@@ -21,7 +22,9 @@ const Tasks = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
-  const [showCreateModal, setShowCreateModal] = useState(false);
+const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+  const [selectedTask, setSelectedTask] = useState(null);
 
   const loadTasks = async () => {
     try {
@@ -65,8 +68,21 @@ const Tasks = () => {
     }
 };
 
-  const handleCreateTask = (newTask) => {
+const handleCreateTask = (newTask) => {
     setTasks(prevTasks => [newTask, ...prevTasks]);
+  };
+
+  const handleEditTask = (task) => {
+    setSelectedTask(task);
+    setShowEditModal(true);
+  };
+
+  const handleUpdateTask = (updatedTask) => {
+    setTasks(prevTasks =>
+      prevTasks.map(task =>
+        task.Id === updatedTask.Id ? updatedTask : task
+      )
+    );
   };
 
 const filteredTasks = tasks.filter((task) => {
@@ -170,17 +186,27 @@ actionText={t('createTask')}
 key={task.Id}
                 task={task}
                 onComplete={handleCompleteTask}
-                onEdit={(task) => toast.info(`Edit mode for task: ${task.title} - Use this to open edit modal/page`)}
+onEdit={handleEditTask}
                 onDelete={handleDeleteTask}
               />
             ))}
           </div>
 )}
 
-        <TaskCreateModal
+<TaskCreateModal
           isOpen={showCreateModal}
           onClose={() => setShowCreateModal(false)}
           onTaskCreated={handleCreateTask}
+        />
+
+        <TaskEditModal
+          isOpen={showEditModal}
+          onClose={() => {
+            setShowEditModal(false);
+            setSelectedTask(null);
+          }}
+          task={selectedTask}
+          onTaskUpdated={handleUpdateTask}
         />
       </div>
     </Layout>
