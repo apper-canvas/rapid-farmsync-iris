@@ -7,6 +7,7 @@ import Error from "@/components/ui/Error";
 import Loading from "@/components/ui/Loading";
 import Layout from "@/components/organisms/Layout";
 import TaskItem from "@/components/molecules/TaskItem";
+import TaskCreateModal from "@/components/molecules/TaskCreateModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
@@ -20,6 +21,7 @@ const Tasks = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [priorityFilter, setPriorityFilter] = useState("all");
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const loadTasks = async () => {
     try {
@@ -61,6 +63,10 @@ const Tasks = () => {
         toast.error("Failed to delete task");
       }
     }
+};
+
+  const handleCreateTask = (newTask) => {
+    setTasks(prevTasks => [newTask, ...prevTasks]);
   };
 
   const filteredTasks = tasks.filter((task) => {
@@ -105,10 +111,10 @@ const Tasks = () => {
             </p>
           </div>
           
-          <Button 
+<Button 
             variant="primary" 
             className="mt-4 lg:mt-0"
-            onClick={() => toast.info("Add task form coming soon")}
+            onClick={() => setShowCreateModal(true)}
           >
             <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
             {t('createTask')}
@@ -153,8 +159,8 @@ const Tasks = () => {
               ? t('noTasksMessage')
               : t('noTasksSearchMessage')
             }
-            actionText={t('createTask')}
-            onAction={() => toast.info("Add task form coming soon")}
+actionText={t('createTask')}
+            onAction={() => setShowCreateModal(true)}
             icon="CheckSquare"
           />
         ) : (
@@ -169,7 +175,13 @@ const Tasks = () => {
               />
             ))}
           </div>
-        )}
+)}
+
+        <TaskCreateModal
+          isOpen={showCreateModal}
+          onClose={() => setShowCreateModal(false)}
+          onTaskCreated={handleCreateTask}
+        />
       </div>
     </Layout>
   );
