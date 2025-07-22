@@ -210,10 +210,8 @@ const filteredExpenses = expenses.filter((expense) => {
             value={`$${stats.monthlyProfit.toLocaleString()}`}
             icon="Calendar"
             color={stats.monthlyProfit >= 0 ? "success" : "warning"}
-          />
+/>
         </div>
-</div>
-
         {/* Tab Navigation */}
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8">
