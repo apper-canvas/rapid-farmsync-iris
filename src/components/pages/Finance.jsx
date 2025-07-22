@@ -29,9 +29,9 @@ const { t } = useTranslation();
 const [searchTerm, setSearchTerm] = useState("");
 const [categoryFilter, setCategoryFilter] = useState("all");
 const [showCreateModal, setShowCreateModal] = useState(false);
-  const [showHarvestModal, setShowHarvestModal] = useState(false);
+const [showHarvestModal, setShowHarvestModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showHarvestEditModal, setShowHarvestEditModal] = useState(false);
-const [showEditModal, setShowEditModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
   const [selectedHarvest, setSelectedHarvest] = useState(null);
   const loadFinanceData = async () => {
@@ -101,8 +101,8 @@ toast.success("Expense updated successfully");
       } catch (err) {
         toast.error("Failed to delete harvest");
       }
-    }
-};
+}
+  };
 
   const handleEditHarvest = (harvest) => {
     setSelectedHarvest(harvest);
