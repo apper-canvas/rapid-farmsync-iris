@@ -39,11 +39,17 @@ const CropCreateModal = ({ isOpen, onClose, onSubmit }) => {
 
     setLoading(true);
     try {
-      const submitData = {
+const submitData = {
         ...formData,
         area: formData.area ? parseFloat(formData.area) : null,
         cropId: formData.cropId ? parseInt(formData.cropId) : null,
-        coordinates: formData.coordinates ? formData.coordinates.split(',').map(coord => parseFloat(coord.trim())) : [],
+        coordinates: formData.coordinates 
+          ? (typeof formData.coordinates === 'string' 
+              ? formData.coordinates.split(',').map(coord => parseFloat(coord.trim()))
+              : Array.isArray(formData.coordinates) 
+                ? formData.coordinates 
+                : [])
+          : [],
         Owner: formData.Owner ? parseInt(formData.Owner) : null
       };
 
