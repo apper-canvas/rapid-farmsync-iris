@@ -8,6 +8,8 @@ import FieldGrid from "@/components/organisms/FieldGrid";
 import Layout from "@/components/organisms/Layout";
 import SearchBar from "@/components/molecules/SearchBar";
 import FieldCreateModal from "@/components/molecules/FieldCreateModal";
+import FieldDetailModal from "@/components/molecules/FieldDetailModal";
+import FieldEditModal from "@/components/molecules/FieldEditModal";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
 import * as fieldService from "@/services/api/fieldService";
@@ -20,7 +22,10 @@ const Fields = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedField, setSelectedField] = useState(null);
 
   const loadFields = async () => {
     try {
@@ -56,12 +61,37 @@ const Fields = () => {
     setFields(prevFields => [...prevFields, newField]);
   };
 
+  const handleSelectField = (field) => {
+    setSelectedField(field);
+    setIsDetailModalOpen(true);
+  };
+
+  const handleEditField = (field) => {
+    setSelectedField(field);
+    setIsEditModalOpen(true);
+  };
+
+  const handleFieldUpdated = async (updatedField) => {
+    // Refresh the fields list to get the latest data
+    await loadFields();
+  };
+
   const handleOpenCreateModal = () => {
     setIsCreateModalOpen(true);
   };
 
   const handleCloseCreateModal = () => {
     setIsCreateModalOpen(false);
+  };
+
+  const handleCloseDetailModal = () => {
+    setIsDetailModalOpen(false);
+    setSelectedField(null);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedField(null);
   };
 
 const filteredFields = fields.filter((field) => {
@@ -151,19 +181,33 @@ const filteredFields = fields.filter((field) => {
             icon="MapPin"
           />
         ) : (
-          <FieldGrid
+<FieldGrid
             fields={filteredFields}
-            onSelectField={(field) => toast.info(`Viewing ${field.name} - ${field.area} acres, ${field.cropVariety}, Status: ${field.currentStage}`)}
-            onEditField={(field) => toast.info(`Edit mode for ${field.name} - Use this to open edit modal/page`)}
+            onSelectField={handleSelectField}
+            onEditField={handleEditField}
             onDeleteField={handleDeleteField}
           />
         )}
       </div>
 
-      <FieldCreateModal
+<FieldCreateModal
         isOpen={isCreateModalOpen}
         onClose={handleCloseCreateModal}
         onFieldCreated={handleCreateField}
+      />
+
+      <FieldDetailModal
+        isOpen={isDetailModalOpen}
+        onClose={handleCloseDetailModal}
+        field={selectedField}
+        onEdit={handleEditField}
+      />
+
+      <FieldEditModal
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        field={selectedField}
+        onFieldUpdated={handleFieldUpdated}
       />
     </Layout>
   );
