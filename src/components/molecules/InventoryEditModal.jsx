@@ -12,10 +12,35 @@ const InventoryEditModal = ({ isOpen, onClose, onSubmit, item }) => {
     category: '',
     quantity: '',
     unit: '',
-    minStock: ''
+    minStock: '',
+    supplier: '',
+    location: '',
+    description: ''
   });
   const [loading, setLoading] = useState(false);
-  const [errors, setErrors] = useState({});
+const [errors, setErrors] = useState({});
+
+  const categories = [
+    'Seeds & Planting',
+    'Fertilizers',
+    'Pesticides',
+    'Tools & Equipment',
+    'Irrigation',
+    'Harvesting Supplies',
+    'Storage & Processing',
+    'Other'
+  ];
+
+  const units = [
+    'kg',
+    'lbs',
+    'tons',
+    'liters',
+    'gallons',
+    'pieces',
+    'boxes',
+    'bags'
+  ];
 
   // Pre-populate form when item changes
   useEffect(() => {
@@ -25,7 +50,10 @@ const InventoryEditModal = ({ isOpen, onClose, onSubmit, item }) => {
         category: item.category || '',
         quantity: item.quantity || '',
         unit: item.unit || '',
-        minStock: item.minStock || ''
+        minStock: item.minStock || '',
+        supplier: item.supplier || '',
+        location: item.location || '',
+        description: item.description || ''
       });
       setErrors({});
     }
@@ -51,7 +79,11 @@ const InventoryEditModal = ({ isOpen, onClose, onSubmit, item }) => {
     }
     
     if (!formData.minStock || formData.minStock < 0) {
-      newErrors.minStock = t('validMinStockRequired');
+newErrors.minStock = t('validMinStockRequired');
+    }
+
+    if (parseFloat(formData.minStock) > parseFloat(formData.quantity)) {
+      newErrors.minStock = 'Minimum stock cannot be higher than current quantity';
     }
     
     setErrors(newErrors);
@@ -67,13 +99,16 @@ const InventoryEditModal = ({ isOpen, onClose, onSubmit, item }) => {
 
     setLoading(true);
     
-    try {
+try {
       const updates = {
         name: formData.name.trim(),
-        category: formData.category.trim(),
+        category: formData.category,
         quantity: parseFloat(formData.quantity),
-        unit: formData.unit.trim(),
-        minStock: parseInt(formData.minStock)
+        unit: formData.unit,
+        minStock: parseFloat(formData.minStock),
+        supplier: formData.supplier.trim() || 'Unknown',
+        location: formData.location.trim() || 'Not specified',
+        description: formData.description.trim()
       };
       
       await onSubmit(item.Id, updates);
@@ -85,13 +120,16 @@ const InventoryEditModal = ({ isOpen, onClose, onSubmit, item }) => {
     }
   };
 
-  const handleClose = () => {
+const handleClose = () => {
     setFormData({
       name: '',
       category: '',
       quantity: '',
       unit: '',
-      minStock: ''
+      minStock: '',
+      supplier: '',
+      location: '',
+      description: ''
     });
     setErrors({});
     onClose();
@@ -113,69 +151,142 @@ const InventoryEditModal = ({ isOpen, onClose, onSubmit, item }) => {
   };
 
   return (
-    <Modal
+<Modal
       isOpen={isOpen}
       onClose={handleClose}
       title={t('editInventoryItem')}
-      size="md"
+      size="lg"
     >
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <Input
-          label={t('itemName')}
-          value={formData.name}
-          onChange={(e) => handleInputChange('name', e.target.value)}
-          placeholder={t('enterItemName')}
-          error={errors.name}
-          required
-        />
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Item Name *
+            </label>
+            <Input
+              type="text"
+              value={formData.name}
+              onChange={(e) => handleInputChange('name', e.target.value)}
+              placeholder="Enter item name"
+              error={errors.name}
+              disabled={loading}
+            />
+          </div>
 
-        <Input
-          label={t('category')}
-          value={formData.category}
-          onChange={(e) => handleInputChange('category', e.target.value)}
-          placeholder={t('enterCategory')}
-          error={errors.category}
-          required
-        />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Category *
+            </label>
+            <Select
+              value={formData.category}
+              onChange={(e) => handleInputChange('category', e.target.value)}
+              error={errors.category}
+              disabled={loading}
+            >
+              <option value="">Select category</option>
+              {categories.map(category => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </Select>
+          </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <Input
-            label={t('quantity')}
-            type="number"
-            value={formData.quantity}
-            onChange={(e) => handleInputChange('quantity', e.target.value)}
-            placeholder={t('enterQuantity')}
-            error={errors.quantity}
-            min="0"
-            step="0.1"
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Unit *
+            </label>
+            <Select
+              value={formData.unit}
+              onChange={(e) => handleInputChange('unit', e.target.value)}
+              error={errors.unit}
+              disabled={loading}
+            >
+              <option value="">Select unit</option>
+              {units.map(unit => (
+                <option key={unit} value={unit}>
+                  {unit}
+                </option>
+              ))}
+            </Select>
+          </div>
 
-          <Input
-            label={t('unit')}
-            value={formData.unit}
-            onChange={(e) => handleInputChange('unit', e.target.value)}
-            placeholder={t('enterUnit')}
-            error={errors.unit}
-            required
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Current Quantity *
+            </label>
+            <Input
+              type="number"
+              min="0"
+              step="0.1"
+              value={formData.quantity}
+              onChange={(e) => handleInputChange('quantity', e.target.value)}
+              placeholder="Enter quantity"
+              error={errors.quantity}
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Minimum Stock *
+            </label>
+            <Input
+              type="number"
+              min="0"
+              step="0.1"
+              value={formData.minStock}
+              onChange={(e) => handleInputChange('minStock', e.target.value)}
+              placeholder="Enter minimum stock level"
+              error={errors.minStock}
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Supplier
+            </label>
+            <Input
+              type="text"
+              value={formData.supplier}
+              onChange={(e) => handleInputChange('supplier', e.target.value)}
+              placeholder="Enter supplier name"
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Location
+            </label>
+            <Input
+              type="text"
+              value={formData.location}
+              onChange={(e) => handleInputChange('location', e.target.value)}
+              placeholder="Enter storage location"
+              disabled={loading}
+            />
+          </div>
+
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Description
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => handleInputChange('description', e.target.value)}
+              placeholder="Enter item description (optional)"
+              rows={3}
+              disabled={loading}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
+            />
+          </div>
         </div>
-
-        <Input
-          label={t('minimumStock')}
-          type="number"
-          value={formData.minStock}
-          onChange={(e) => handleInputChange('minStock', e.target.value)}
-          placeholder={t('enterMinStock')}
-          error={errors.minStock}
-          min="0"
-          required
-        />
-
-        <div className="flex justify-end space-x-3 pt-4">
+<div className="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3 space-y-3 space-y-reverse sm:space-y-0 pt-4 border-t">
           <Button
             type="button"
-            variant="secondary"
+            variant="outline"
             onClick={handleClose}
             disabled={loading}
           >
@@ -184,8 +295,8 @@ const InventoryEditModal = ({ isOpen, onClose, onSubmit, item }) => {
           <Button
             type="submit"
             variant="primary"
-            loading={loading}
             disabled={loading}
+            loading={loading}
           >
             {loading ? t('updating') : t('updateItem')}
           </Button>
