@@ -11,7 +11,6 @@ import StatCard from "@/components/molecules/StatCard";
 import ExpenseEditModal from "@/components/molecules/ExpenseEditModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import HarvestCreateModal from "@/components/molecules/HarvestCreateModal";
-import HarvestEditModal from "@/components/molecules/HarvestEditModal";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
 import Badge from "@/components/atoms/Badge";
@@ -32,8 +31,6 @@ const [categoryFilter, setCategoryFilter] = useState("all");
   const [showHarvestModal, setShowHarvestModal] = useState(false);
 const [showEditModal, setShowEditModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
-  const [showHarvestEditModal, setShowHarvestEditModal] = useState(false);
-  const [selectedHarvest, setSelectedHarvest] = useState(null);
   const loadFinanceData = async () => {
     try {
       setError(null);
@@ -104,19 +101,6 @@ toast.success("Expense updated successfully");
     }
   };
 
-  const handleEditHarvest = (harvest) => {
-    setSelectedHarvest(harvest);
-    setShowHarvestEditModal(true);
-  };
-
-  const handleHarvestUpdated = (updatedHarvest) => {
-    setHarvests(prev => 
-      prev.map(harvest => 
-        harvest.Id === updatedHarvest.Id ? updatedHarvest : harvest
-      )
-    );
-    toast.success("Harvest updated successfully");
-  };
   const calculateFinancialStats = () => {
     const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
     const totalRevenue = harvests.reduce((sum, harvest) => sum + harvest.revenue, 0);
@@ -414,8 +398,9 @@ const filteredExpenses = expenses.filter((expense) => {
                           <div className="flex items-center space-x-2">
                             <Button
                               size="sm"
-                              variant="ghost"
-                              onClick={() => handleEditHarvest(harvest)}
+variant="ghost"
+                              disabled
+                              title="Edit functionality temporarily unavailable"
                             >
                               <ApperIcon name="Edit2" className="h-4 w-4" />
                             </Button>
@@ -458,12 +443,6 @@ const filteredExpenses = expenses.filter((expense) => {
         onHarvestCreated={handleHarvestCreated}
       />
 
-      <HarvestEditModal
-        isOpen={showHarvestEditModal}
-        onClose={() => setShowHarvestEditModal(false)}
-        onHarvestUpdated={handleHarvestUpdated}
-        harvest={selectedHarvest}
-      />
     </Layout>
   );
 };
