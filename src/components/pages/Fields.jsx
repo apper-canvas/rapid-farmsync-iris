@@ -10,6 +10,7 @@ import Layout from "@/components/organisms/Layout";
 import SearchBar from "@/components/molecules/SearchBar";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
+import FieldCreateModal from "@/components/molecules/FieldCreateModal";
 import * as fieldService from "@/services/api/fieldService";
 
 const Fields = () => {
@@ -19,6 +20,7 @@ const Fields = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const loadFields = async () => {
     try {
@@ -48,6 +50,18 @@ const Fields = () => {
         toast.error("Failed to delete field");
       }
     }
+};
+
+  const handleCreateField = (newField) => {
+    setFields(prevFields => [...prevFields, newField]);
+  };
+
+  const handleOpenCreateModal = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const handleCloseCreateModal = () => {
+    setIsCreateModalOpen(false);
   };
 
 const filteredFields = fields.filter((field) => {
@@ -91,10 +105,10 @@ const filteredFields = fields.filter((field) => {
             </p>
           </div>
           
-          <Button 
+<Button 
             variant="primary" 
             className="mt-4 lg:mt-0"
-            onClick={() => toast.info("Add field form coming soon")}
+            onClick={handleOpenCreateModal}
 >
             <ApperIcon name="Plus" className="h-4 w-4 mr-2" />
             {t('addNewField')}
@@ -143,8 +157,14 @@ const filteredFields = fields.filter((field) => {
             onEditField={(field) => toast.info(`Editing field: ${field.name}`)}
             onDeleteField={handleDeleteField}
           />
-        )}
+)}
       </div>
+
+      <FieldCreateModal
+        isOpen={isCreateModalOpen}
+        onClose={handleCloseCreateModal}
+        onFieldCreated={handleCreateField}
+      />
     </Layout>
   );
 };
