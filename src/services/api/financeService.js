@@ -505,5 +505,154 @@ export const getExpensesByDateRange = async (startDate, endDate) => {
       console.error(error.message);
     }
     throw error;
+}
+};
+
+export const getHarvestById = async (harvestId) => {
+  try {
+    const apperClient = getApperClient();
+    
+    const params = {
+      fields: harvestFields
+    };
+    
+    const response = await apperClient.getRecordById(harvestTableName, parseInt(harvestId), params);
+    
+    if (!response.success) {
+      console.error(response.message);
+      throw new Error(response.message);
+    }
+    
+    if (!response.data) {
+      return null;
+    }
+    
+    // Map database fields to UI format
+    const harvest = response.data;
+    return {
+      Id: harvest.Id,
+      cropId: harvest.cropId_c,
+      fieldName: harvest.fieldName_c,
+      cropVariety: harvest.cropVariety_c,
+      date: harvest.date_c,
+      quantity: harvest.quantity_c,
+      unit: harvest.unit_c,
+      quality: harvest.quality_c,
+      revenue: harvest.revenue_c,
+      Tags: harvest.Tags,
+      Owner: harvest.Owner
+    };
+  } catch (error) {
+    if (error?.response?.data?.message) {
+      console.error(`Error fetching harvest with ID ${harvestId}:`, error?.response?.data?.message);
+    } else {
+      console.error(error.message);
+    }
+    throw error;
+  }
+};
+
+export const updateHarvest = async (harvestId, updates) => {
+  try {
+    const apperClient = getApperClient();
+    
+    // Map UI fields to database fields and include only Updateable fields
+    const dbUpdates = {
+      Id: parseInt(harvestId)
+    };
+    
+    if (updates.cropVariety !== undefined) {
+      dbUpdates.Name = updates.cropVariety;
+      dbUpdates.cropVariety_c = updates.cropVariety;
+    }
+    if (updates.cropId !== undefined) dbUpdates.cropId_c = updates.cropId;
+    if (updates.fieldName !== undefined) dbUpdates.fieldName_c = updates.fieldName;
+    if (updates.date !== undefined) dbUpdates.date_c = updates.date;
+    if (updates.quantity !== undefined) dbUpdates.quantity_c = updates.quantity;
+    if (updates.unit !== undefined) dbUpdates.unit_c = updates.unit;
+    if (updates.quality !== undefined) dbUpdates.quality_c = updates.quality;
+    if (updates.revenue !== undefined) dbUpdates.revenue_c = updates.revenue;
+    if (updates.Tags !== undefined) dbUpdates.Tags = updates.Tags;
+    if (updates.Owner !== undefined) dbUpdates.Owner = updates.Owner ? parseInt(updates.Owner) : null;
+    
+    const params = {
+      records: [dbUpdates]
+    };
+    
+    const response = await apperClient.updateRecord(harvestTableName, params);
+    
+    if (!response.success) {
+      console.error(response.message);
+      throw new Error(response.message);
+    }
+    
+    if (response.results) {
+      const successfulUpdates = response.results.filter(result => result.success);
+      const failedUpdates = response.results.filter(result => !result.success);
+      
+      if (failedUpdates.length > 0) {
+        console.error(`Failed to update harvests ${failedUpdates.length} records:${JSON.stringify(failedUpdates)}`);
+        throw new Error("Failed to update harvest");
+      }
+      
+      if (successfulUpdates.length > 0) {
+        const updatedHarvest = successfulUpdates[0].data;
+        return {
+          Id: updatedHarvest.Id,
+          cropId: updatedHarvest.cropId_c,
+          fieldName: updatedHarvest.fieldName_c,
+          cropVariety: updatedHarvest.cropVariety_c,
+          date: updatedHarvest.date_c,
+          quantity: updatedHarvest.quantity_c,
+          unit: updatedHarvest.unit_c,
+          quality: updatedHarvest.quality_c,
+          revenue: updatedHarvest.revenue_c,
+          Tags: updatedHarvest.Tags,
+          Owner: updatedHarvest.Owner
+        };
+      }
+    }
+  } catch (error) {
+    if (error?.response?.data?.message) {
+      console.error("Error updating harvest:", error?.response?.data?.message);
+    } else {
+      console.error(error.message);
+    }
+    throw error;
+  }
+};
+
+export const deleteHarvest = async (harvestId) => {
+  try {
+    const apperClient = getApperClient();
+    
+    const params = {
+      RecordIds: [parseInt(harvestId)]
+    };
+    
+    const response = await apperClient.deleteRecord(harvestTableName, params);
+    
+    if (!response.success) {
+      console.error(response.message);
+      throw new Error(response.message);
+    }
+    
+    if (response.results) {
+      const failedDeletions = response.results.filter(result => !result.success);
+      
+      if (failedDeletions.length > 0) {
+        console.error(`Failed to delete harvests ${failedDeletions.length} records:${JSON.stringify(failedDeletions)}`);
+        throw new Error("Failed to delete harvest");
+      }
+    }
+    
+    return true;
+  } catch (error) {
+    if (error?.response?.data?.message) {
+      console.error("Error deleting harvest:", error?.response?.data?.message);
+    } else {
+      console.error(error.message);
+    }
+    throw error;
   }
 };

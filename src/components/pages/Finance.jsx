@@ -11,6 +11,7 @@ import StatCard from "@/components/molecules/StatCard";
 import ExpenseEditModal from "@/components/molecules/ExpenseEditModal";
 import SearchBar from "@/components/molecules/SearchBar";
 import HarvestCreateModal from "@/components/molecules/HarvestCreateModal";
+import HarvestEditModal from "@/components/molecules/HarvestEditModal";
 import Card from "@/components/atoms/Card";
 import Select from "@/components/atoms/Select";
 import Badge from "@/components/atoms/Badge";
@@ -29,8 +30,10 @@ const [searchTerm, setSearchTerm] = useState("");
 const [categoryFilter, setCategoryFilter] = useState("all");
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [showHarvestModal, setShowHarvestModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+const [showEditModal, setShowEditModal] = useState(false);
   const [selectedExpense, setSelectedExpense] = useState(null);
+  const [showHarvestEditModal, setShowHarvestEditModal] = useState(false);
+  const [selectedHarvest, setSelectedHarvest] = useState(null);
   const loadFinanceData = async () => {
     try {
       setError(null);
@@ -86,7 +89,33 @@ const handleExpenseCreated = (newExpense) => {
         expense.Id === updatedExpense.Id ? updatedExpense : expense
       )
     );
-    toast.success("Expense updated successfully");
+toast.success("Expense updated successfully");
+  };
+
+  const handleDeleteHarvest = async (harvestId) => {
+    if (window.confirm("Are you sure you want to delete this harvest record?")) {
+      try {
+        await financeService.deleteHarvest(harvestId);
+        setHarvests(harvests.filter(harvest => harvest.Id !== harvestId));
+        toast.success("Harvest deleted successfully");
+      } catch (err) {
+        toast.error("Failed to delete harvest");
+      }
+    }
+  };
+
+  const handleEditHarvest = (harvest) => {
+    setSelectedHarvest(harvest);
+    setShowHarvestEditModal(true);
+  };
+
+  const handleHarvestUpdated = (updatedHarvest) => {
+    setHarvests(prev => 
+      prev.map(harvest => 
+        harvest.Id === updatedHarvest.Id ? updatedHarvest : harvest
+      )
+    );
+    toast.success("Harvest updated successfully");
   };
   const calculateFinancialStats = () => {
     const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
@@ -377,10 +406,29 @@ const filteredExpenses = expenses.filter((expense) => {
                           </div>
                         </div>
                         
-                        <div className="flex items-center gap-4">
+<div className="flex items-center gap-4">
                           <span className="text-lg font-semibold text-gray-900">
                             ${harvest.revenue?.toLocaleString() || '0'}
                           </span>
+                          
+                          <div className="flex items-center space-x-2">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleEditHarvest(harvest)}
+                            >
+                              <ApperIcon name="Edit2" className="h-4 w-4" />
+                            </Button>
+                            
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => handleDeleteHarvest(harvest.Id)}
+                              className="text-error hover:text-error hover:bg-error/10"
+                            >
+                              <ApperIcon name="Trash2" className="h-4 w-4" />
+                            </Button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -404,10 +452,17 @@ const filteredExpenses = expenses.filter((expense) => {
         expense={selectedExpense}
       />
 
-      <HarvestCreateModal
+<HarvestCreateModal
         isOpen={showHarvestModal}
         onClose={() => setShowHarvestModal(false)}
         onHarvestCreated={handleHarvestCreated}
+      />
+
+      <HarvestEditModal
+        isOpen={showHarvestEditModal}
+        onClose={() => setShowHarvestEditModal(false)}
+        onHarvestUpdated={handleHarvestUpdated}
+        harvest={selectedHarvest}
       />
     </Layout>
   );
