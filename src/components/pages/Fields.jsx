@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { useTranslation } from "@/i18n";
 import ApperIcon from "@/components/ApperIcon";
 import Empty from "@/components/ui/Empty";
 import Error from "@/components/ui/Error";
@@ -8,10 +7,11 @@ import Loading from "@/components/ui/Loading";
 import FieldGrid from "@/components/organisms/FieldGrid";
 import Layout from "@/components/organisms/Layout";
 import SearchBar from "@/components/molecules/SearchBar";
+import FieldCreateModal from "@/components/molecules/FieldCreateModal";
 import Select from "@/components/atoms/Select";
 import Button from "@/components/atoms/Button";
-import FieldCreateModal from "@/components/molecules/FieldCreateModal";
 import * as fieldService from "@/services/api/fieldService";
+import { useTranslation } from "@/i18n/index";
 
 const Fields = () => {
   const { t } = useTranslation();
@@ -147,17 +147,17 @@ const filteredFields = fields.filter((field) => {
               : t('noFieldsSearchMessage')
             }
             actionText={t('addField')}
-            onAction={() => toast.info("Add field form coming soon")}
+            onAction={handleOpenCreateModal}
             icon="MapPin"
           />
         ) : (
           <FieldGrid
             fields={filteredFields}
-            onSelectField={(field) => toast.info(`Viewing field: ${field.name}`)}
-            onEditField={(field) => toast.info(`Editing field: ${field.name}`)}
+            onSelectField={(field) => toast.info(`Viewing ${field.name} - ${field.area} acres, ${field.cropVariety}, Status: ${field.currentStage}`)}
+            onEditField={(field) => toast.info(`Edit mode for ${field.name} - Use this to open edit modal/page`)}
             onDeleteField={handleDeleteField}
           />
-)}
+        )}
       </div>
 
       <FieldCreateModal

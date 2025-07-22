@@ -167,10 +167,10 @@ actionText={t('createTask')}
           <div className="space-y-4">
             {filteredTasks.map((task) => (
               <TaskItem
-                key={task.Id}
+key={task.Id}
                 task={task}
                 onComplete={handleCompleteTask}
-                onEdit={(task) => toast.info(`Editing task: ${task.title}`)}
+                onEdit={(task) => toast.info(`Edit mode for task: ${task.title} - Use this to open edit modal/page`)}
                 onDelete={handleDeleteTask}
               />
             ))}

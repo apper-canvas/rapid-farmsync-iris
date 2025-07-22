@@ -221,9 +221,9 @@ const filteredExpenses = expenses.filter((expense) => {
             message={expenses.length === 0 
               ? t('noExpensesMessage')
               : t('noExpensesSearchMessage')
-            }
+}
             actionText={t('addExpense')}
-            onAction={() => toast.info("Add expense form coming soon")}
+            onAction={() => setShowCreateModal(true)}
             icon="Receipt"
           />
         ) : (
@@ -259,10 +259,10 @@ const filteredExpenses = expenses.filter((expense) => {
                       </span>
                       
                       <div className="flex items-center space-x-2">
-                        <Button
+<Button
                           size="sm"
                           variant="ghost"
-                          onClick={() => toast.info(`Editing expense: ${expense.description}`)}
+                          onClick={() => toast.info(`Edit mode for expense: ${expense.description} - Use this to open edit modal/page`)}
                         >
                           <ApperIcon name="Edit2" className="h-4 w-4" />
                         </Button>

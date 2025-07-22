@@ -155,10 +155,10 @@ const filteredItems = items.filter((item) => {
             onAction={handleOpenCreateModal}
             icon="Package"
           />
-        ) : (
+) : (
           <InventoryTable
             items={filteredItems}
-            onEditItem={(item) => toast.info(`Editing item: ${item.name}`)}
+            onEditItem={(item) => toast.info(`Edit mode for item: ${item.name} - Use this to open edit modal/page`)}
             onDeleteItem={handleDeleteItem}
           />
         )}
