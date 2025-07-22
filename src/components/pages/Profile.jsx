@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import Layout from '@/components/organisms/Layout';
-import { Card } from '@/components/atoms/Card';
+import Card from '@/components/atoms/Card';
 import Button from '@/components/atoms/Button';
 import Input from '@/components/atoms/Input';
 import ApperIcon from '@/components/ApperIcon';
