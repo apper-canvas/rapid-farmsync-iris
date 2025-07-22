@@ -26,16 +26,10 @@ const FormField = ({
         </label>
       )}
       
-      {children ? (
+{children ? (
         React.cloneElement(children, inputProps)
       ) : type === "select" ? (
-        <Select {...inputProps}>
-          {props.options?.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </Select>
+        <Select {...inputProps} />
       ) : (
         <Input type={type} {...inputProps} />
       )}
