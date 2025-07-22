@@ -369,6 +369,130 @@ const translations = {
     // User Profile
     farmManager: "फार्म प्रबंधक",
     farmName: "ग्रीन वैली फार्म"
+},
+
+  mr: {
+    // Navigation
+    dashboard: "डॅशबोर्ड",
+    fields: "शेत",
+    tasks: "कार्ये",
+    inventory: "यादी",
+    finance: "वित्त",
+    settings: "सेटिंग्ज",
+
+    // App Title
+    appTitle: "फार्मसिंक प्रो",
+    appSubtitle: "स्मार्ट शेती",
+
+    // Dashboard
+    farmDashboard: "शेत डॅशबोर्ड",
+    welcomeMessage: "परतीच्या स्वागत! आज तुमच्या शेतावर हे घडत आहे.",
+    totalFields: "एकूण शेत",
+    activeCrops: "सक्रिय पिके",
+    pendingTasks: "प्रलंबित कार्ये",
+    monthlyRevenue: "या महिन्याचे उत्पन्न",
+    recentTasks: "अलीकडची कार्ये",
+    noRecentTasks: "कोणतीही अलीकडची कार्ये नाहीत",
+    viewAll: "सर्व पहा",
+
+    // Quick Actions
+    addField: "शेत जोडा",
+    newTask: "नवीन कार्य",
+    updateInventory: "यादी अपडेट करा",
+    addExpense: "खर्च जोडा",
+
+    // Fields Page
+    fieldsManagement: "शेत व्यवस्थापन",
+    fieldsDescription: "तुमच्या सर्व शेत क्षेत्रांचे निरीक्षण आणि व्यवस्थापन एका ठिकाणी करा.",
+    addNewField: "नवीन शेत जोडा",
+    searchFields: "नाव किंवा पीक नुसार शेत शोधा...",
+    allStatus: "सर्व स्थिती",
+    seeding: "बी पेरणी",
+    growing: "वाढत आहे",
+    ready: "तयार",
+    harvested: "कापणी झाली",
+    noFieldsFound: "कोणतीही शेत सापडली नाही",
+    noFieldsMessage: "तुमचे पहिले शेत जोडून तुमच्या शेताचे व्यवस्थापन सुरू करा.",
+    noFieldsSearchMessage: "तुमच्या सध्याच्या शोध निकषांशी कोणतीही शेत जुळत नाही.",
+    viewDetails: "तपशील पहा",
+
+    // Tasks Page
+    taskManagement: "कार्य व्यवस्थापन",
+    tasksDescription: "तुमच्या सर्व शेतातील क्रियाकलाप आणि असाइनमेंट व्यवस्थित आणि ट्रॅक करा.",
+    createTask: "कार्य तयार करा",
+    searchTasks: "कार्ये शोधा...",
+    allPriority: "सर्व प्राधान्य",
+    pending: "प्रलंबित",
+    inProgress: "प्रगतीपथावर",
+    completed: "पूर्ण",
+    overdue: "मुदत संपली",
+    high: "उच्च",
+    medium: "मध्यम",
+    low: "कमी",
+    noTasksFound: "कोणतीही कार्ये सापडली नाहीत",
+    noTasksMessage: "शेत क्रियाकलापांचे आयोजन सुरू करण्यासाठी तुमचे पहिले कार्य तयार करा.",
+    noTasksSearchMessage: "तुमच्या सध्याच्या शोध निकषांशी कोणतीही कार्ये जुळत नाहीत.",
+
+    // Inventory Page
+    inventoryManagement: "यादी व्यवस्थापन",
+    inventoryDescription: "स्टॉकच्या पातळीचा मागोवा घ्या आणि शेत पुरवठा कुशलतेने व्यवस्थापित करा.",
+    addItem: "वस्तू जोडा",
+    searchInventory: "यादी वस्तू शोधा...",
+    allCategories: "सर्व श्रेणी",
+    inventoryItems: "यादी वस्तू",
+    item: "वस्तू",
+    category: "श्रेणी",
+    quantity: "प्रमाण",
+    status: "स्थिती",
+    stockLevel: "स्टॉक पातळी",
+    actions: "क्रिया",
+    outOfStock: "स्टॉक संपला",
+    lowStock: "कमी स्टॉक",
+    inStock: "स्टॉकमध्ये",
+    min: "किमान",
+    noInventoryItems: "कोणत्याही यादी वस्तू नाहीत",
+    noInventoryMessage: "यादी वस्तू जोडून तुमच्या शेत पुरवठ्याचा मागोवा सुरू करा.",
+    noInventorySearchMessage: "तुमच्या सध्याच्या शोध निकषांशी कोणत्याही वस्तू जुळत नाहीत.",
+
+    // Finance Page
+    financialManagement: "वित्तीय व्यवस्थापन",
+    financeDescription: "तुमच्या शेतातील खर्च, उत्पन्न आणि नफ्याचा मागोवा घ्या.",
+    recordHarvest: "कापणीची नोंद करा",
+    totalRevenue: "एकूण उत्पन्न",
+    totalExpenses: "एकूण खर्च",
+    netProfit: "निव्वळ नफा",
+    monthlyProfit: "मासिक नफा",
+    searchExpenses: "खर्च शोधा...",
+    recentExpenses: "अलीकडचे खर्च",
+    noExpensesFound: "कोणतेही खर्च सापडले नाहीत",
+    noExpensesMessage: "नफ्याच्या निरीक्षणासाठी तुमच्या शेतातील खर्चाचा मागोवा सुरू करा.",
+    noExpensesSearchMessage: "तुमच्या सध्याच्या शोध निकषांशी कोणतेही खर्च जुळत नाहीत.",
+
+    // Common Actions
+    edit: "संपादित करा",
+    delete: "हटवा",
+    view: "पहा",
+    add: "जोडा",
+    save: "जतन करा",
+    cancel: "रद्द करा",
+    confirm: "पुष्टी करा",
+
+    // Status Messages
+    deleteConfirm: "तुम्हाला खरोखर ही वस्तू हटवायची आहे का?",
+    deleteSuccess: "वस्तू यशस्वीरित्या हटवली",
+    deleteError: "वस्तू हटवण्यात अयशस्वी",
+    loadError: "डेटा लोड करण्यात अयशस्वी",
+    saveSuccess: "बदल यशस्वीरित्या जतन केले",
+
+    // Language Selection
+    selectLanguage: "भाषा निवडा",
+    english: "इंग्रजी",
+    spanish: "स्पॅनिश",
+    hindi: "हिंदी",
+
+    // User Profile
+    farmManager: "शेत व्यवस्थापक",
+    farmName: "ग्रीन व्हॅली फार्म"
   }
 };
 
