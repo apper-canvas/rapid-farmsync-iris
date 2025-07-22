@@ -25,20 +25,20 @@ const FieldEditModal = ({ isOpen, onClose, field, onFieldUpdated }) => {
   });
   const [errors, setErrors] = useState({});
 
-  // Pre-populate form when field changes
+// Pre-populate form when field changes
   useEffect(() => {
     if (field && isOpen) {
       setFormData({
-        Name: field.Name || '',
-        area_c: field.area_c?.toString() || '',
-        soilType_c: field.soilType_c || '',
-        cropVariety_c: field.cropVariety_c || '',
-        cropId_c: field.cropId_c?.toString() || '',
-        currentStage_c: field.currentStage_c || 'seeding',
-        status_c: field.status_c || 'active',
-        plantDate_c: field.plantDate_c || '',
-        expectedHarvest_c: field.expectedHarvest_c || '',
-        coordinates_c: field.coordinates_c || '',
+        Name: field.name || '',
+        area_c: field.area?.toString() || '',
+        soilType_c: field.soilType || '',
+        cropVariety_c: field.cropVariety || '',
+        cropId_c: field.cropId?.toString() || '',
+        currentStage_c: field.currentStage || 'seeding',
+        status_c: field.status || 'active',
+        plantDate_c: field.plantDate || '',
+        expectedHarvest_c: field.expectedHarvest || '',
+        coordinates_c: Array.isArray(field.coordinates) ? JSON.stringify(field.coordinates) : (field.coordinates || ''),
         Tags: field.Tags || ''
       });
       setErrors({});
