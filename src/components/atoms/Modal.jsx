@@ -8,8 +8,11 @@ const Modal = ({
   title, 
   children, 
   size = 'md',
-  className 
+  className,
+  ...otherProps // Capture any additional props to prevent them from being passed to DOM
 }) => {
+  // Ensure size is always a string to prevent boolean attribute issues
+  const validSize = typeof size === 'string' ? size : 'md';
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -57,9 +60,9 @@ const Modal = ({
       
       {/* Modal */}
       <div 
-        className={cn(
+className={cn(
           'relative bg-white rounded-lg shadow-xl w-full transition-all transform',
-          sizeClasses[size],
+          sizeClasses[validSize],
           className
         )}
       >
