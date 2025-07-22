@@ -1,0 +1,98 @@
+[
+  {
+    "Id": 1,
+    "title": "Irrigation System Check",
+    "description": "Inspect and maintain irrigation lines in North Field",
+    "fieldId": 1,
+    "fieldName": "North Field",
+    "assignedTo": "John Smith",
+    "dueDate": "2024-04-15",
+    "status": "pending",
+    "priority": "high",
+    "category": "maintenance"
+  },
+  {
+    "Id": 2,
+    "title": "Fertilizer Application",
+    "description": "Apply nitrogen fertilizer to corn crop in South Pasture",
+    "fieldId": 2,
+    "fieldName": "South Pasture",
+    "assignedTo": "Maria Garcia",
+    "dueDate": "2024-04-18",
+    "status": "in-progress",
+    "priority": "medium",
+    "category": "fertilizing"
+  },
+  {
+    "Id": 3,
+    "title": "Soil Testing",
+    "description": "Collect soil samples for nutrient analysis",
+    "fieldId": 3,
+    "fieldName": "East Valley",
+    "assignedTo": "David Johnson",
+    "dueDate": "2024-04-20",
+    "status": "pending",
+    "priority": "low",
+    "category": "testing"
+  },
+  {
+    "Id": 4,
+    "title": "Pest Control Spray",
+    "description": "Apply organic pesticide to protect tomato plants",
+    "fieldId": 4,
+    "fieldName": "West Ridge",
+    "assignedTo": "Sarah Wilson",
+    "dueDate": "2024-04-12",
+    "status": "overdue",
+    "priority": "high",
+    "category": "pest-control"
+  },
+  {
+    "Id": 5,
+    "title": "Equipment Maintenance",
+    "description": "Service tractor and harvesting equipment",
+    "fieldId": null,
+    "fieldName": null,
+    "assignedTo": "Mike Brown",
+    "dueDate": "2024-04-25",
+    "status": "completed",
+    "priority": "medium",
+    "category": "maintenance"
+  },
+  {
+    "Id": 6,
+    "title": "Crop Monitoring",
+    "description": "Monitor crop health and growth progress in Central Field",
+    "fieldId": 5,
+    "fieldName": "Central Field",
+    "assignedTo": "Lisa Anderson",
+    "dueDate": "2024-04-14",
+    "status": "pending",
+    "priority": "medium",
+    "category": "monitoring"
+  },
+  {
+    "Id": 7,
+    "title": "Weed Control",
+    "description": "Remove weeds from soybean field before they compete with crop",
+    "fieldId": 3,
+    "fieldName": "East Valley",
+    "assignedTo": "John Smith",
+    "dueDate": "2024-04-16",
+    "status": "in-progress",
+    "priority": "high",
+    "category": "weeding"
+  },
+  {
+    "Id": 8,
+    "title": "Harvest Preparation",
+    "description": "Prepare harvesting equipment and storage facilities",
+    "fieldId": 3,
+    "fieldName": "East Valley",
+    "assignedTo": "David Johnson",
+    "dueDate": "2024-06-28",
+    "status": "pending",
+    "priority": "medium",
+    "category": "harvesting"
+  }
+]

@@ -1,0 +1,92 @@
+[
+  {
+    "Id": 1,
+    "name": "Nitrogen Fertilizer",
+    "category": "Fertilizers",
+    "quantity": 150,
+    "unit": "bags",
+    "minStock": 50,
+    "lastUpdated": "2024-04-10"
+  },
+  {
+    "Id": 2,
+    "name": "Corn Seeds - Sweet Variety",
+    "category": "Seeds",
+    "quantity": 25,
+    "unit": "lbs",
+    "minStock": 20,
+    "lastUpdated": "2024-04-08"
+  },
+  {
+    "Id": 3,
+    "name": "Organic Pesticide",
+    "category": "Pesticides",
+    "quantity": 8,
+    "unit": "gallons",
+    "minStock": 15,
+    "lastUpdated": "2024-04-12"
+  },
+  {
+    "Id": 4,
+    "name": "Irrigation Pipes",
+    "category": "Equipment",
+    "quantity": 200,
+    "unit": "meters",
+    "minStock": 100,
+    "lastUpdated": "2024-04-05"
+  },
+  {
+    "Id": 5,
+    "name": "Soybean Seeds",
+    "category": "Seeds",
+    "quantity": 80,
+    "unit": "lbs",
+    "minStock": 30,
+    "lastUpdated": "2024-04-09"
+  },
+  {
+    "Id": 6,
+    "name": "Phosphorous Fertilizer",
+    "category": "Fertilizers",
+    "quantity": 45,
+    "unit": "bags",
+    "minStock": 25,
+    "lastUpdated": "2024-04-11"
+  },
+  {
+    "Id": 7,
+    "name": "Farm Tools Set",
+    "category": "Tools",
+    "quantity": 3,
+    "unit": "sets",
+    "minStock": 2,
+    "lastUpdated": "2024-04-07"
+  },
+  {
+    "Id": 8,
+    "name": "Wheat Seeds - Winter",
+    "category": "Seeds",
+    "quantity": 120,
+    "unit": "lbs",
+    "minStock": 40,
+    "lastUpdated": "2024-04-06"
+  },
+  {
+    "Id": 9,
+    "name": "Herbicide",
+    "category": "Pesticides",
+    "quantity": 5,
+    "unit": "gallons",
+    "minStock": 10,
+    "lastUpdated": "2024-04-13"
+  },
+  {
+    "Id": 10,
+    "name": "Soil pH Test Strips",
+    "category": "Testing",
+    "quantity": 500,
+    "unit": "strips",
+    "minStock": 200,
+    "lastUpdated": "2024-04-04"
+  }
+]

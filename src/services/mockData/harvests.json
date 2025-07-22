@@ -1,0 +1,57 @@
+[
+  {
+    "Id": 1,
+    "cropId": 4,
+    "fieldName": "West Ridge",
+    "cropVariety": "Tomatoes",
+    "date": "2024-05-01",
+    "quantity": 8500,
+    "unit": "lbs",
+    "quality": "Premium",
+    "revenue": 12750
+  },
+  {
+    "Id": 2,
+    "cropId": 1,
+    "fieldName": "North Field",
+    "cropVariety": "Winter Wheat",
+    "date": "2024-03-15",
+    "quantity": 2200,
+    "unit": "bushels",
+    "quality": "Grade A",
+    "revenue": 15400
+  },
+  {
+    "Id": 3,
+    "cropId": 2,
+    "fieldName": "South Pasture",
+    "cropVariety": "Sweet Corn",
+    "date": "2024-03-20",
+    "quantity": 1800,
+    "unit": "bushels",
+    "quality": "Premium",
+    "revenue": 9900
+  },
+  {
+    "Id": 4,
+    "cropId": 5,
+    "fieldName": "Central Field",
+    "cropVariety": "Potatoes",
+    "date": "2024-02-28",
+    "quantity": 12000,
+    "unit": "lbs",
+    "quality": "Grade B",
+    "revenue": 7200
+  },
+  {
+    "Id": 5,
+    "cropId": 3,
+    "fieldName": "East Valley",
+    "cropVariety": "Soybeans",
+    "date": "2024-02-15",
+    "quantity": 1500,
+    "unit": "bushels",
+    "quality": "Grade A",
+    "revenue": 18750
+  }
+]

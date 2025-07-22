@@ -1,0 +1,15 @@
+{
+  "location": "Green Valley Farm",
+  "temperature": 72,
+  "condition": "Partly Cloudy",
+  "humidity": 65,
+  "windSpeed": 8,
+  "icon": "CloudSun",
+  "forecast": [
+    { "day": "Mon", "temp": 74, "icon": "Sun" },
+    { "day": "Tue", "temp": 71, "icon": "CloudSun" },
+    { "day": "Wed", "temp": 68, "icon": "CloudRain" },
+    { "day": "Thu", "temp": 70, "icon": "CloudSun" },
+    { "day": "Fri", "temp": 75, "icon": "Sun" }
+  ]
+}
