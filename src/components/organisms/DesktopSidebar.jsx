@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import ApperIcon from "@/components/ApperIcon";
+import LogoutButton from "@/components/organisms/LogoutButton";
 import LanguageSelector from "@/components/molecules/LanguageSelector";
-import { useTranslation } from "@/i18n";
-
+import { useTranslation } from "@/i18n/index";
 const DesktopSidebar = () => {
   const location = useLocation();
   const { t } = useTranslation();
@@ -82,24 +82,12 @@ const navItems = [
             <div className="mt-2 ml-8">
               <LanguageSelector />
             </div>
-          )}
+)}
         </div>
       </nav>
 
       {/* User Profile */}
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center space-x-3 px-4 py-3 rounded-lg bg-gray-50">
-          <div className="bg-gradient-to-br from-primary to-secondary p-2 rounded-full">
-            <ApperIcon name="User" className="h-4 w-4 text-white" />
-          </div>
-        </div>
-      </div>
-<div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">{t('farmManager')}</p>
-            <p className="text-xs text-gray-500">{t('farmName')}</p>
-          </div>
+      <LogoutButton />
     </aside>
   );
 };
-
-export default DesktopSidebar;

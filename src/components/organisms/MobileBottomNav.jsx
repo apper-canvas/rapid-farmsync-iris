@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import LanguageSelector from "@/components/molecules/LanguageSelector";
+import LogoutButton from "@/components/organisms/LogoutButton";
 import { useTranslation } from "@/i18n";
 import ApperIcon from "@/components/ApperIcon";
-
 const MobileBottomNav = () => {
   const { t } = useTranslation();
   const [showSettings, setShowSettings] = useState(false);
@@ -33,9 +33,12 @@ return (
                 className="text-gray-500 hover:text-gray-700"
               >
                 <ApperIcon name="X" className="h-5 w-5" />
-              </button>
+</button>
             </div>
             <LanguageSelector />
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <LogoutButton />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
